@@ -1,0 +1,96 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject RoleManager<IdentityRole> _roleManager
+
+@model IEnumerable<ApplicationUser>
+@{
+    ViewBag.Title = "Все пользователи";
+}
+<h1>Все пользователи</h1>
+
+@if(Model.Any())
+{
+    <form method="get">
+        <label>Фильтр по роли:</label>
+        <select name="roleName">
+            <option value="">Все роли</option>
+            @foreach (var role in _roleManager.Roles)
+            {
+                <option value="@role.Name">@role.Name</option>
+            }
+        </select>
+        <button type="submit">Применить фильтр</button>
+    </form>
+ <a asp-area="Identity" asp-page="/Account/Register"
+       class="btn btn-primary mb-3" style="width:auto">
+        Добавить нового пользователя
+    </a>
+   
+    foreach (var user in Model)
+    {
+        <div class="card-tableNew">
+           
+
+            <div class="card-body">
+
+                <table style="display:table">
+                    <tr>
+                        <td style="padding-right: 15px;">
+                            @if (user.ProfilePicture != null)
+                            {
+                                <img id="profilePicture" style="width:70px;height:70px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(user.ProfilePicture))">
+                            }
+                            else
+                            {
+                                <div id="profilePicture" style="width:70px;height:70px; object-fit:cover">Image is missing</div>
+                            }
+                        </td>
+                        <td>
+                            <table style="display:inline-table">
+                                <tr>
+                                    <th style="padding-right:15px">Имя: </th>
+                                    <td>@user.FirstName</td>
+                                </tr>
+                                <tr>
+                                    <th style="padding-right:15px">Фамилия: </th>
+                                    <td>@user.LastName</td>
+                                </tr>
+                                <tr>
+                                    <th style="padding-right:15px">Email: </th>
+                                    <td>@user.Email</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+           
+            <div class="card-footer">
+                <form asp-action="DeleteUser" asp-route-id="@user.Id" method="post">
+                <a asp-action="EditUser" asp-controller="User" asp-route-id="@user.Id" class="btn btn-primary">Edit</a>
+                <button type="submit" class="btn btn-danger"
+                onclick="return confirm('Вы уверены что хотите удалить данного пользователя: @user.FirstName @user.LastName')">Delete</button>
+                   
+                   
+                </form>
+            </div>
+        </div>
+    }
+}
+else
+{
+     <div class="card-tableNew">
+        <div class="card-header">
+            Еще не создано пользователей
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">
+                Используйте кнопку ниже, чтобы создать пользователя
+            </h5>
+            <a class="btn btn-primary" style="width:auto"
+               asp-controller="Account" asp-action="Register">
+                Добавить нового пользователя
+            </a>
+        </div>
+    </div>
+}

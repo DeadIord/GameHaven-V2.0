@@ -1,0 +1,37 @@
+﻿@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout))
+    {
+        Layout = (string)parentLayout;
+    }
+    else
+    {
+        Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+    }
+}
+
+<div>
+    <h4>
+        Изменение настроек учетной записи
+    </h4>
+    <hr />
+
+    
+    <div class="container rounded bg-white mt-2 mb-5">
+        <div class="row">
+            <div class="col-md-8 ">
+                <div class="p-3 py-1 border-right">
+                    @RenderBody()
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-3 py-5" style="position: fixed;">
+                    <partial name="_ManageNav" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

@@ -1,0 +1,77 @@
+﻿@model IEnumerable<WebAppMain.Models.Computer>
+@{
+    ViewBag.Title = "Компьютеры";
+}
+<h1>Все Компьютеры</h1>
+
+@if (Model.Any())
+{
+    <a asp-action="AddComputer"
+   class="btn btn-primary mb-3" style="width:auto">
+        Добавить новый компьютер 
+    </a>
+
+    foreach (var computer in Model)
+    {
+        <div class="card-tableNew">
+            <div class="card-header">
+            </div>
+
+            <div class="card-body">
+
+                <table style="display:table">
+                    <tr>
+
+                        <td>
+                            <table style="display:inline-table">
+                                <tr>
+                                    <th style="padding-right:15px">Компьютер: </th>
+                                    <td>@computer.ComputerName</td>
+                                </tr>
+                               
+                               @if (computer.Halls != null && computer.Halls.HallsName != null)
+                                    {
+                                        <tr>
+                                            <th style="padding-right:15px">Номер зала: </th>
+                                            <td>@computer.Halls.HallsName</td>
+                                        </tr>
+                                    }
+                                else
+                                {
+                                    
+                                }
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="card-footer">
+                <form asp-action="Delete" asp-route-id="@computer.ComputerId" method="post">
+
+                    <a asp-action="EditComputer" asp-controller="Computer" asp-route-id="@computer.ComputerId" class="btn btn-primary">Редактирование</a>
+                    <button type="submit" class="btn btn-danger"
+                    onclick="return confirm('Вы уверены что хотите удалить данную услугу: @computer.')">
+                        Удаление
+                    </button>
+                </form>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="card-tableNew">
+        <div class="card-header">
+            Еще не добавлены компьютеры
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">
+                Используйте кнопку ниже, чтобы добавить компьютеры
+            </h5>
+            <a class="btn btn-primary" style="width:auto"
+           asp-action="AddComputer">
+                Добавить добавить компьютеры
+            </a>
+        </div>
+    </div>
+}

@@ -1,0 +1,118 @@
+﻿@using WebAppMain.Controllers
+@using static WebAppMain.Controllers.HomeController;
+@using Microsoft.EntityFrameworkCore;
+
+@model WebAppMain.Models.Visiting
+@{
+    ViewBag.Title = "Добавление посещения";
+
+    var z = ViewData["Services"];
+    var h = ViewData["Halls"];
+    var e = ViewData["Employees"];
+}
+
+<form asp-action="AddVisitingGuest" asp-controller="Home" >
+    <div class="card-3d-wrap mx-auto">
+        <div class="card-front">
+            <div class="center-wrap">
+                <div>               
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <label asp-for="VisitingId" class="control-label">Посетитель</label>                 
+                </div>
+                <label asp-for="ServicecId" class="control-label">Услуга</label>
+                <select class="form-style" asp-for="ServicecId">
+                    @if (z != null)
+                        @foreach (var item in (List<HomeController.SelectOptions>)z)
+                        {
+                            <option value="@item.value">@item.text</option>
+                        }
+                </select>
+                <span asp-validation-for="ServicecId" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="DateAndTimeOfTheVisit" class="control-label">Дата и время посещения</label>
+                    <input type="datetime-local" asp-for="DateAndTimeOfTheVisit" class="form-style" />
+                    <span asp-validation-for="DateAndTimeOfTheVisit" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="NumberOfHours" class="control-label">Количество часов</label>
+                    <input type="number" placeholder="Количество часов" asp-for="NumberOfHours" class="form-style" />
+                    <span asp-validation-for="NumberOfHours" class="text-danger"></span>
+                </div>
+                <div>
+                    <label asp-for="HallsId" class="control-label">Зал</label>
+                    <select class="form-style" asp-for="HallsId" id="halls-dropdown">
+                        <option value="">Выберите зал</option>
+                        @if (h != null)
+                        {
+                            @foreach (var item in (List<HomeController.SelectOptions>)h)
+                            {
+                                <option value="@item.value">@item.text</option>
+                            }
+
+                        }
+                    </select>
+                    <span asp-validation-for="HallsId" class="text-danger"></span>
+                </div>
+                <div>
+                    <label asp-for="ComputerId" class="control-label">Компьютер</label>
+                    <select class="form-style" asp-for="ComputerId" id="computers-dropdown">
+                        <option value="">Выберите компьютер</option>
+                    </select>
+                </div>
+
+              
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Создать</button>
+                    <a asp-action="ListVisiting" class="btn btn-primary">Отмена</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+@section scripts {
+    <script>
+        $(function () {
+            $("#halls-dropdown").change(function () {
+                var hallId = $(this).val();
+                if (hallId) {
+                    $.ajax({
+                        url: "/Visiting/GetComputersByHallId?hallId=" + hallId,
+                        type: "GET",
+                        success: function (data) {
+                            $("#computers-dropdown").empty();
+                            $.each(data, function (i, item) {
+                                $("#computers-dropdown").append("<option value='" + item.value + "'>" + item.text + "</option>");
+                            });
+                        }
+                    });
+                } else {
+                    $("#computers-dropdown").empty();
+                    $("#computers-dropdown").append("<option value=''>Выберите компьютер</option>");
+                }
+            }).trigger("change");
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+<script>
+    var acc = document.getElementsByClassName("accordions");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+        });
+    }
+</script>
