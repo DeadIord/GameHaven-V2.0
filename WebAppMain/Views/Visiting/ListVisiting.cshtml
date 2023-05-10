@@ -1,177 +1,186 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 @inject SignInManager<ApplicationUser> signInManager;
 @inject UserManager<ApplicationUser> UserManager
-@model IEnumerable<Visiting>
+@model VisitingListViewModel
 @{
     ViewBag.Title = "Все Посещения";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h1>Все Посещения</h1>
 
-@if (Model.Any())
-{
-   
-   
-    <form method="get">
-        <div class="card-3d-wrap mx-auto">
-            <div class="card-front">
-                <div class="center-wrap">
-                    <div class="input-group">
-         
-                        <input type="date" name="searchdate" class="form-style" placeholder="Поиск по имени" style="margin-top: 5px;width:89%;">
 
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary mr btnsecondary" type="submit">Поиск</button>
-                        </div>
+<form asp-controller="Visiting" asp-action="ListVisiting">
+    <div class="form-group">
+        <label>Filter by Class</label>
+        <select asp-for="constantFilter" class="form-control">
+            <option value="">All</option>
+            @foreach (var constantFilter in Model.Visiting)
+            {
+                <option value="@constantFilter.Status">@constantFilter.Status</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Filter</button>
+    <a asp-controller="Visiting" asp-action="ListVisiting">Clear Filter</a>
+</form>
 
-                    </div>
-                    <label for="constantFilter">Фильтр по типу статусу</label>
-                    <div class="input-group">
-
-                        <select class="form-style" name="constantFilter" style="margin-bottom: 5px; width:89%;" id="constantFilter">
-                            <option value="">Все</option>
-                            <option value="Подтвержден">Подтвержденный</option>
-                            <option value="Не подтвержден">Не подтвержденный</option>
-                        </select>
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary mb btnsecondary" type="submit">Применить</button>
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-        </div>
+<div class="col-md-3 ml-auto">
+    <form asp-controller="Visiting" asp-action="ListVisiting">
         <div class="form-group">
-  
-            <button asp-action="AddVisiting" class="btn btn-primary">
-                Добавить новое посещение
-            </button>
+            <label></label>
+            <input type="text" asp-for="SearchString" class="form-control" />
         </div>
-        @if (TempData.ContainsKey("ErrorMessage"))
-        {
-            <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
-        }
-
+        <button type="submit" class="btn btn-primary">Search</button>
+        <a asp-controller="Visiting" asp-action="ListVisiting">Clear Search</a>
     </form>
+</div>
 
-    @foreach (var visiting in Enumerable.Reverse(Model))
+<form method="get">
+    <div class="form-group">
+        <button asp-action="AddVisiting" class="btn btn-primary">
+            Добавить новое посещение
+        </button>
+    </div>
+    @if (TempData.ContainsKey("ErrorMessage"))
     {
-        <div class="card-tableNew">
-            <div class="card-header">
-            </div>
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+</form>
 
-            <div class="card-body">
 
-                <table style="display:table">
-                    <tr>
-                        <td>
-                            <table style="display:inline-table">
+<div class="card-tableNew">
+    <div class="card-header">
+    </div>
+    @foreach (var visiting in Enumerable.Reverse(Model.Visiting))
+    {
+        <div class="card-body">
 
-                                <tr>
-                                    <th style="padding-right:15px">Посетитель: </th>
-                                    @if (await UserManager.IsInRoleAsync(visiting.ApplicationUser, "Гость"))
-                                    {
-                                        <td>@visiting.ApplicationUser.UserName</td>
-                                    }
-                                    else
-                                    {
-                                        <td>@visiting.Visitor.Name</td>
-                                    }
-                                </tr>
-                                <tr>
-                                    <th style="padding-right:15px">Услуга: </th>
-                                    <td>@visiting.Services.NameOfTheService</td>
-                                </tr>
-                                <tr>
-                                    <th style="padding-right:15px">Дата посещения: </th>
-                                    <td>@visiting.DateAndTimeOfTheVisit.ToString("dd.MM.yyyy")</td>
-                                </tr>
-                                <tr>
-                                    <th style="padding-right:15px">Время посещения: </th>
-                                    <td>@visiting.DateAndTimeOfTheVisit.ToString("HH.mm")</td>
-                                </tr>
-                                <tr>
-                                    <th style="padding-right:15px">Количество часов: </th>
-                                    <td>@visiting.NumberOfHours</td>
-                                </tr>
-                                <tr>
-                                    <th style="padding-right:15px">Зал: </th>
-                                    <td>@visiting.Halls.HallsName</td>
-                                </tr>
-                                <tr>
-                                    <th style="padding-right:15px">Компьютер: </th>
-                                    <td>@visiting.Halls.Computers.FirstOrDefault(c => c.ComputerId == visiting.ComputerId)?.ComputerName</td>
-                                </tr>
-                                <tr>
-                                    @if (await UserManager.IsInRoleAsync(visiting.ApplicationUser, "Гость"))
-                                    {
-                                       
-                                    }
-                                    else
-                                    {
-                                        <th style="padding-right:15px">Сотрудник: </th>
-                                        <td>@visiting.ApplicationUser.UserName</td>
-                                    }
-                                 
-                                </tr>
-                                <tr>
-                                    <th style="padding-right:15px">Статус: </th>
-                                    <td>
+            <table style="display:table">
+                <tr>
+                    <td>
+                        <table style="display:inline-table">
 
-                                        <form method="post" action="@Url.Action("ChangeStatus", "Visiting")">
-                                            <div class="form-row" style="margin-top: 20px;">
-                                                <div class="col-md-6 mb-3">
+                            <tr>
+                                <th style="padding-right:15px">Посетитель: </th>
+                                @if (await UserManager.IsInRoleAsync(visiting.ApplicationUser, "Гость"))
+                                {
+                                    <td>@visiting.ApplicationUser.UserName</td>
+                                }
+                                else
+                                {
+                                    <td>@visiting.Visitor.Name</td>
+                                }
+                            </tr>
+                            <tr>
+                                <th style="padding-right:15px">Услуга: </th>
+                                <td>@visiting.Services.NameOfTheService</td>
+                            </tr>
+                            <tr>
+                                <th style="padding-right:15px">Дата посещения: </th>
+                                <td>@visiting.DateAndTimeOfTheVisit.ToString("dd.MM.yyyy")</td>
+                            </tr>
+                            <tr>
+                                <th style="padding-right:15px">Время посещения: </th>
+                                <td>@visiting.DateAndTimeOfTheVisit.ToString("HH.mm")</td>
+                            </tr>
+                            <tr>
+                                <th style="padding-right:15px">Количество часов: </th>
+                                <td>@visiting.NumberOfHours</td>
+                            </tr>
+                            <tr>
+                                <th style="padding-right:15px">Зал: </th>
+                                <td>@visiting.Halls.HallsName</td>
+                            </tr>
+                            <tr>
+                                <th style="padding-right:15px">Компьютер: </th>
+                                <td>@visiting.Halls.Computers.FirstOrDefault(c => c.ComputerId == visiting.ComputerId)?.ComputerName</td>
+                            </tr>
+                            <tr>
+                                @if (await UserManager.IsInRoleAsync(visiting.ApplicationUser, "Гость"))
+                                {
 
-                                                    <input type="hidden" name="orderId" value="@visiting.VisitingId" />
-                                                    <select name="newStatus" class="custom-select">
-                                                        <option value="Не подтвержден" selected="@(visiting.Status == "Не подтвержден")">Не подтвержден</option>
-                                                        <option value="Подтвержден" selected="@(visiting.Status == "Подтвержден")">Подтвержден</option>
-                                                        
-                                                    </select>
+                                }
+                                else
+                                {
+                                    <th style="padding-right:15px">Сотрудник: </th>
+                                    <td>@visiting.ApplicationUser.UserName</td>
+                                }
+                            </tr>
+                            <tr>
+                                <th style="padding-right:15px">Статус: </th>
+                                <td>
+                                    <form method="post" action="@Url.Action("ChangeStatus", "Visiting")">
+                                        <div class="form-row" style="margin-top: 20px;">
+                                            <div class="col-md-6 mb-3">
 
-                                                </div>
-                                                <div class="col-md-4 mb-3">
-                                                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                                                </div>
+                                                <input type="hidden" name="orderId" value="@visiting.VisitingId" />
+                                                <select name="newStatus" class="custom-select">
+                                                    <option value="Не подтвержден" selected="@(visiting.Status == "Не подтвержден")">Не подтвержден</option>
+                                                    <option value="Подтвержден" selected="@(visiting.Status == "Подтвержден")">Подтвержден</option>
+
+                                                </select>
+
                                             </div>
-                                        </form>
+                                            <div class="col-md-4 mb-3">
+                                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                                            </div>
+                                        </div>
+                                    </form>
 
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="card-footer">
-                <form asp-action="Delete" asp-route-id="@visiting.VisitingId" method="post">
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
 
-                    <a asp-action="EditVisiting" asp-controller="Visiting" asp-route-id="@visiting.VisitingId" class="btn btn-primary">Редактирование</a>
-                    <button type="submit" class="btn btn-danger"
-                    onclick="return confirm('Вы уверены что хотите удалить информацию о посещении?')">
-                        Удаление
-                    </button>
-                </form>
-            </div>
+        </div>
+        <div class="card-footer">
+            <form asp-action="Delete" asp-route-id="@visiting.VisitingId" method="post">
+                <a asp-action="EditVisiting" asp-controller="Visiting" asp-route-id="@visiting.VisitingId" class="btn btn-primary">Редактирование</a>
+                <button type="submit" class="btn btn-danger"
+                        onclick="return confirm('Вы уверены что хотите удалить информацию о посещении?')">
+                    Удаление
+                </button>
+            </form>
         </div>
     }
 
-}
-else
-{
-    <div class="card-tableNew">
-        <div class="card-header">
-            Еще не добавлены посещения
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">
-                Используйте кнопку ниже, чтобы добавить посещение
-            </h5>
-            <a class="btn btn-primary" style="width:auto"
-           asp-action="AddVisiting">
-                Добавить посещение
-            </a>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <nav>
+                <ul class="pagination">
+                    @if (Model.CurrentPage > 1)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="/Visiting/ListVisiting?page=@(Model.CurrentPage - 1)&amp;searchString=@Model.SearchString&amp;constantFilter=@Model.constantFilter">Previous</a>
+                        </li>
+                    }
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        if (i == Model.CurrentPage)
+                        {
+                            <li class="page-item active">
+                                <span class="page-link">@i</span>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="/Visiting/ListVisiting?page=@i&amp;searchString=@Model.SearchString&amp;constantFilter=@Model.constantFilter">@i</a>
+                            </li>
+                        }
+                    }
+                    @if (Model.CurrentPage < Model.TotalPages)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="/Visiting/ListVisiting?page=@(Model.CurrentPage + 1)&amp;searchString=@Model.SearchString&amp;constantFilter=@Model.constantFilter">Next</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
         </div>
     </div>
-}
+</div>

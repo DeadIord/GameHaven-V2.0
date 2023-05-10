@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebAppMain.Models
 {
-    public class Halls
+     public class Halls
     {
         public int HallsId { get; set; }
         [Display(Name = "Зал")]

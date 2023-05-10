@@ -101,16 +101,24 @@ namespace WebAppMain.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id != null)
-            {
-                Halls computers = new Halls { HallsId = id.Value };
-                db.Entry(computers).State = EntityState.Deleted;
-                await db.SaveChangesAsync();
-                return RedirectToAction("ListHalls");
-            }
-            return NotFound();
-        }
+            
+                Halls halls = await db.Halls
+                    .Include(h => h.Visitings)
+                    .FirstOrDefaultAsync(p => p.HallsId == id);
 
+                if (halls != null)
+                {
+                    if (halls.Visitings.Count == 0)
+                    {
+                        db.Entry(halls).State = EntityState.Deleted;
+                        await db.SaveChangesAsync();
+                        return RedirectToAction("ListHalls");
+                    }
+                }
+            
+
+            return RedirectToAction("ListHalls");
+        }
 
     }
 }

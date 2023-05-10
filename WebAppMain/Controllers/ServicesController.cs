@@ -85,21 +85,31 @@ namespace WebAppMain.Controllers
             }
             return NotFound();
         }
-        
-                    
 
         [HttpPost]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id != null)
             {
-                Services services = new Services { ServicesId = id.Value };
-                db.Entry(services).State = EntityState.Deleted;
-                await db.SaveChangesAsync();
-                return RedirectToAction("ListServices");
+                Services services = await db.Services
+                    .Include(h => h.Visitings)
+                    .FirstOrDefaultAsync(p => p.ServicesId == id);
+
+                if (services != null)
+                {
+                    if (services.Visitings.Count == 0)
+                    {
+                        db.Entry(services).State = EntityState.Deleted;
+                        await db.SaveChangesAsync();
+                        return RedirectToAction("ListServices");
+                    }
+                }
             }
-            return NotFound();
+
+            return RedirectToAction("ListServices");
         }
+
+       
     }
     }
     

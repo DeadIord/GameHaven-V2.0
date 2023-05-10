@@ -24,32 +24,58 @@ namespace WebAppMain.Controllers
             _roleManager = roleManager;
             db = applicationDbContext;
         }
-         public async Task<IActionResult> ListVisiting(string searchdate, string constantFilter)
-          {
-                var visiting = await db.Visiting
-                    .Include(p => p.Visitor)           
-                    .Include(p => p.Services)          
-                    .Include(p => p.ApplicationUser)
-                      .Include(p => p.Halls)
-                      .ThenInclude(c =>c.Computers)
-                    .ToListAsync();
+        public IActionResult ListVisiting(string searchString, int? page, string currentFilter, string constantFilter)
+        {
+            var visitors = db.Visitors.ToList();
+            var visiting = db.Visiting.ToList();
+            var halss = db.Halls.ToList();
+            var comps = db.Computers.ToList();
+            var users = _userManager.Users.ToList();
+            var services = db.Services.ToList();
 
-                var visitors = db.Visitors;
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
 
-                if (!string.IsNullOrEmpty(searchdate))
-                {
-                    visiting = visiting.Where(v => v.DateAndTimeOfTheVisit.Date.ToString("yyyy-MM-dd").Contains(searchdate)).ToList();
-                }
-           
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                visiting = visiting.Where(u => !string.IsNullOrEmpty(u.DateAndTimeOfTheVisit.Date.ToString("yyyy-MM-dd")) &&
+                    u.DateAndTimeOfTheVisit.Date.ToString("yyyy-MM-dd").Contains(searchString)).ToList();
 
+            }
 
-                if (!string.IsNullOrEmpty(constantFilter))
-                {
-                    visiting = visiting.Where(v => v.Status == constantFilter).ToList();
-                }
+            if (!string.IsNullOrEmpty(constantFilter))
+            {
 
-                return View(visiting.ToList());
-          }
+                visiting = visiting.Where(u => u.Status != null && u.Status != null && u.Status.Contains(constantFilter)).ToList();
+            }
+
+            //устанавливаем размер страницы и получаем количество страниц
+            int pageSize = 2;
+            int pageNumber = (page ?? 1);
+            int totalUsers = visiting.Count();
+            int totalPages = (int)Math.Ceiling((decimal)totalUsers / pageSize);
+
+            var model = new VisitingListViewModel
+            {
+                Visiting = visiting.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList(),
+                CurrentPage = pageNumber,
+                TotalPages = totalPages,
+                constantFilter = searchString,
+                Halls = halss,
+                ApplicationUser = users,
+                Computer = comps,
+                Services = services,
+                Visitors = visitors
+            };
+
+            return View(model);
+        }
         public record SelectOptions
         {
             public int value { get; set; }

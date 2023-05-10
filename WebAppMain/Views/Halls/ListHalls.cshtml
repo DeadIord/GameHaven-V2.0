@@ -23,6 +23,7 @@
             <tbody>
                 @foreach (var hall in Model)
                 {
+                    <div asp-validation-summary="All" class="text-danger"></div>
                     <tr>
 
                         <td>@hall.HallsName</td>
@@ -30,6 +31,7 @@
                             <form asp-action="Delete" asp-route-id="@hall.HallsId" method="post">
 
                                 <a asp-action="EditHalls" asp-controller="Halls" asp-route-id="@hall.HallsId" class="btn btn-primary">Редактирование</a>
+
                                 <button type="submit" class="btn btn-danger" style="  margin-top: 5px; margin-bottom: 5px;"
                                         onclick="return confirm('Вы уверены что хотите удалить данный зал: @hall.HallsName')">
                                     Удаление

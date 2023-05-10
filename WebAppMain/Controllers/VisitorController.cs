@@ -95,6 +95,28 @@ namespace WebAppMain.Controllers
 
 
 
+        //[HttpPost]
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+           
+        //        Visitors visitors = await db.Visitors
+        //            .Include(h => h.Visiting)
+        //            .FirstOrDefaultAsync(p => p.VisitorsId == id);
+
+        //        if (visitors != null)
+        //        {
+        //            if (visitors.Visiting.Count == 0)
+        //            {
+        //                db.Entry(visitors).State = EntityState.Deleted;
+        //                await db.SaveChangesAsync();
+        //                return RedirectToAction("ListVisitor");
+        //            }
+        //        }
+            
+
+        //    return RedirectToAction("ListVisitor");
+        //}
+
         [HttpPost]
         public async Task<IActionResult> Delete(int? id)
         {
