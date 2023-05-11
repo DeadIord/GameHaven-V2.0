@@ -81,7 +81,8 @@
                     <select class="form-style" asp-for="ComputerId" id="computers-dropdown">
                         <option value="">Выберите компьютер</option>
                     </select>
-                </div>             
+                </div>
+                <div id="computer-status-container"></div>
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Создать</button>
@@ -114,6 +115,46 @@
                     $("#computers-dropdown").append("<option value=''>Выберите компьютер</option>");
                 }
             }).trigger("change");
+        });
+    </script>
+    <script>
+        $(function () {
+            $("#halls-dropdown, #date-in").on("input change", async function () {
+                const selectedDateTime = $("#date-in").val();
+                const selectedHallId = $("#halls-dropdown").val();
+                const computerStatus = await getComputerStatus(selectedHallId, selectedDateTime);
+                updateComputerBlocks(computerStatus);
+            });
+
+            async function getComputerStatus(hallId, selectedDateTime) {
+                const response = await fetch(`/Visiting/GetComputerStatus?hallId=${hallId}&selectedDateTime=${selectedDateTime}`);
+                const computerStatus = await response.json();
+                return computerStatus;
+            }
+
+            function updateComputerBlocks(computerStatus) {
+                const container = document.getElementById("computer-status-container");
+                container.innerHTML = "";
+
+                computerStatus.forEach((status) => {
+                    const computerBlock = document.createElement("div");
+                    computerBlock.classList.add("computer");
+
+                    if (status.isBusy) {
+                        computerBlock.classList.add("busy");
+                    } else {
+                        computerBlock.classList.add("free");
+                    }
+
+                    computerBlock.textContent = status.computerName;
+
+                    container.appendChild(computerBlock);
+                });
+            }
+
+            // Загрузка статуса компьютеров при загрузке страницы
+            const defaultDateTime = $("#date-in").val();
+            getComputerStatus(defaultDateTime).then(updateComputerBlocks);
         });
     </script>
     <partial name="_ValidationScriptsPartial" />

@@ -56,7 +56,7 @@ namespace WebAppMain.Controllers
             }
 
             //устанавливаем размер страницы и получаем количество страниц
-            int pageSize = 2;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             int totalUsers = visiting.Count();
             int totalPages = (int)Math.Ceiling((decimal)totalUsers / pageSize);
@@ -187,7 +187,24 @@ namespace WebAppMain.Controllers
 
 
         }
+        [HttpGet]
 
+        public async Task<JsonResult> GetComputerStatus(int hallId, DateTime selectedDateTime)
+        {
+            var computers = await db.Computers
+                .Where(c => c.HallsId == hallId)
+                .Select(c => new
+                {
+                    computerName = c.ComputerName,
+                    isBusy = db.Visiting.Any(v => v.ComputerId == c.ComputerId
+                        && v.Status == "Подтвержден"
+                        && v.DateAndTimeOfTheVisit <= selectedDateTime
+                        && v.DateAndTimeOfTheVisitEnd >= selectedDateTime)
+                })
+                .ToListAsync();
+
+            return Json(computers);
+        }
         [HttpGet]
         public JsonResult GetComputersByHallId(int hallId)
         {

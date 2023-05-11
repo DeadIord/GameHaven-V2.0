@@ -29,50 +29,50 @@
                         {
 
                             <li>
-                                <a asp-controller="Services" asp-action="ListServices">Услуги </a>
+                                <a class="nav-link text-dark bi bi-bookmark-plus" asp-controller="Services" asp-action="ListServices">Услуги </a>
                             </li>
                             <li>
-                                <a asp-controller="Computer" asp-action="ListComputer">Компьютеры </a>
+                                <a class="nav-link text-dark bi bi-bookmark-plus" asp-controller="Computer" asp-action="ListComputer">Компьютеры </a>
                             </li>
                             <li>
-                                <a asp-controller="Halls" asp-action="ListHalls">Залы </a>
+                                <a class="nav-link text-dark bi bi-bookmark-plus" asp-controller="Halls" asp-action="ListHalls">Залы </a>
                             </li>
                             <li>
-                                <a asp-controller="Visitor" asp-action="ListVisitor">Посетители </a>
+                                <a  class="nav-link text-dark bi bi-bookmark-plus" asp-controller="Visitor" asp-action="ListVisitor">Посетители </a>
                             </li>
                             <li>
-                                <a asp-controller="Visiting" asp-action="ListVisiting">Посещение </a>
+                                <a  class="nav-link text-dark bi bi-bookmark-plus" asp-controller="Visiting" asp-action="ListVisiting">Посещение </a>
                             </li>
                             <li>
-                                <a asp-controller="UserRoles" asp-action="Index">Управление ролями </a>
+                                <a class="nav-link text-dark bi bi-bookmark-plus" asp-controller="UserRoles" asp-action="Index">Роли </a>
                             </li>
                             <li>
-                                <a asp-controller="User" asp-action="ListUsers">Управление сотрудниками </a>
+                                <a class="nav-link text-dark bi bi-bookmark-plus" asp-controller="User" asp-action="ListUsers">Пользователи </a>
                             </li>
 
                         }
                         @if (signInManager.IsSignedIn(User) && User.IsInRole("Сотрудник"))
                         {
                             <li>
-                                <a asp-controller="Services" asp-action="ListServices">Услуги </a>
+                                <a class="nav-link text-dark bi bi-bookmark-plus"  asp-controller="Services" asp-action="ListServices">Услуги </a>
                             </li>
                             <li>
-                                <a asp-controller="Computer" asp-action="ListComputer">Компьютеры </a>
+                                <a class="nav-link text-dark bi bi-bookmark-plus" asp-controller="Computer" asp-action="ListComputer">Компьютеры </a>
                             </li>
                             <li>
-                                <a asp-controller="Halls" asp-action="ListHalls">Залы </a>
+                                <a class="nav-link text-dark bi bi-bookmark-plus" asp-controller="Halls" asp-action="ListHalls">Залы </a>
                             </li>
                             <li>
-                                <a asp-controller="Visitor" asp-action="ListVisitor">Посетители </a>
+                                <a class="nav-link text-dark bi bi-bookmark-plus" asp-controller="Visitor" asp-action="ListVisitor">Посетители </a>
                             </li>
                             <li>
-                                <a asp-controller="Visiting" asp-action="ListVisiting">Посещение </a>
+                                <a class="nav-link text-dark bi bi-bookmark-plus" asp-controller="Visiting" asp-action="ListVisiting">Посещение </a>
                             </li>
                         }
                         @if (signInManager.IsSignedIn(User) && User.IsInRole("Гость"))
                         {
                              <li>
-                                <a asp-controller="Home" asp-action="AddVisitingGuest">запись </a>
+                                <a class="nav-link text-dark bi bi-bookmark-plus" asp-controller="Home" asp-action="AddVisitingGuest">запись </a>
                             </li>                            
                         }
                     </ul>
@@ -92,6 +92,7 @@
             &copy; 2023 - WebAppMain -
         </div>
     </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
