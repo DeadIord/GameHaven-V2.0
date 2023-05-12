@@ -2,7 +2,7 @@
 
 namespace WebAppMain.Models
 {
-    public class VisitingListViewModel
+    public class VisitingListVM
     {
         public List<Visiting> Visiting { get; set; }
         public IEnumerable<Halls> Halls { get; set; }

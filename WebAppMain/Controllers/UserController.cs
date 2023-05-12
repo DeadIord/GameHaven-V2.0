@@ -43,7 +43,7 @@ namespace WebAppMain.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> EditUser(EditUserViewModel model)
+        public async Task<IActionResult> EditUser(EditUserVM model)
         {
             var user = await _userManager.FindByIdAsync(model.Id);
 
@@ -91,7 +91,7 @@ namespace WebAppMain.Controllers
             // GetRolesAsync returns the list of user Roles
             var userRoles = await _userManager.GetRolesAsync(user);
 
-            var model = new EditUserViewModel
+            var model = new EditUserVM
             {
                 Id = user.Id,
                 Email = user.Email,

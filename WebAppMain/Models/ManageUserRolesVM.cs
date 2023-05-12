@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebAppMain.Models
 {
-    public class ManageUserRolesViewModel
+    public class ManageUserRolesVM
     {
         public string RoleId { get; set; }
         public string RoleName { get; set; }

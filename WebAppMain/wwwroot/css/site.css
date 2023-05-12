@@ -83,9 +83,9 @@ html {
 }
 
 .free {
-    background-color: green;
+    background-image: url("../img/green.png");
 }
 
 .busy {
-    background-color: red;
+    background-image: url("../img/red.png");
 }

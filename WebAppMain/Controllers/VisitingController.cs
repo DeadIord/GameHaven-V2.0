@@ -61,7 +61,7 @@ namespace WebAppMain.Controllers
             int totalUsers = visiting.Count();
             int totalPages = (int)Math.Ceiling((decimal)totalUsers / pageSize);
 
-            var model = new VisitingListViewModel
+            var model = new VisitingListVM
             {
                 Visiting = visiting.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList(),
                 CurrentPage = pageNumber,

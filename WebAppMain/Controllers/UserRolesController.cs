@@ -21,10 +21,10 @@ namespace WebAppMain.Controllers
         public async Task<IActionResult> Index()
         {
             var users = await _userManager.Users.ToListAsync();
-            var userRolesViewModel = new List<UserRolesViewModel>();
+            var userRolesViewModel = new List<UserRolesVM>();
             foreach (ApplicationUser user in users)
             {
-                var thisViewModel = new UserRolesViewModel
+                var thisViewModel = new UserRolesVM
                 {
                     UserId = user.Id,
                     Email = user.Email,
@@ -51,10 +51,10 @@ namespace WebAppMain.Controllers
                 return View("NotFound");
             }
             ViewBag.UserName = user.UserName;
-            var model = new List<ManageUserRolesViewModel>();
+            var model = new List<ManageUserRolesVM>();
             foreach (var role in _roleManager.Roles)
             {
-                var userRolesViewModel = new ManageUserRolesViewModel
+                var userRolesViewModel = new ManageUserRolesVM
                 {
                     RoleId = role.Id,
                     RoleName = role.Name
@@ -72,7 +72,7 @@ namespace WebAppMain.Controllers
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> Manage(List<ManageUserRolesViewModel> model, string userId)
+        public async Task<IActionResult> Manage(List<ManageUserRolesVM> model, string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)

@@ -2,7 +2,7 @@
 
 namespace WebAppMain.Models
 {
-    public class UserRolesViewModel
+    public class UserRolesVM
     {
         public string UserId { get; set; }
         public string FirstName { get; set; }
