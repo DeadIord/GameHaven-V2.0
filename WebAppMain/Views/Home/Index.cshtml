@@ -8,8 +8,9 @@
 </div>
 @if (TempData.ContainsKey("SuccessMessage"))
 {
-
     <div class="alert alert-dismissible alert-dark" role="alert">
         @TempData["SuccessMessage"]
     </div>
+    double totalCost = Convert.ToDouble(TempData["TotalCost"]);
+    <p>Для оплаты бронирования в размере @totalCost рублей перейдите по ссылке <a href="https://my.qiwi.com/Aly-GEGUYq3GWb" target="_blank">Proceed to Payment</a></p>
 }

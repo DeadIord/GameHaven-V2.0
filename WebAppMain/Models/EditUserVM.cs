@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebAppMain.Models
 {
-    public class EditUserViewModel
+    public class EditUserVM
     {
-        public EditUserViewModel()
+        public EditUserVM()
         {
             Claims = new List<string>();
             Roles = new List<string>();

@@ -31,20 +31,17 @@ namespace WebAppMain.Controllers
 
         public async Task<IActionResult> Index(string userId, string code)
         {
-            if (userId == null || code == null)
+            var lastVisiting = await db.Visiting
+              .Where(v => v.ApplicationUserId == userId)
+              .OrderByDescending(v => v.DateAndTimeOfTheVisit)
+              .FirstOrDefaultAsync();
+
+            if (lastVisiting != null)
             {
-                return View();
+                ViewBag.TotalCost = lastVisiting.TotalCost;
             }
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return View();
-            }
-            var result = await _userManager.ConfirmEmailAsync(user, code);
-            if (result.Succeeded)
-                return RedirectToAction("Index", "Home");
-            else
-                return View();
+
+            return View();
         }
 
        
@@ -84,6 +81,11 @@ namespace WebAppMain.Controllers
                 {
                     db.Visiting.Add(visiting);
                     await db.SaveChangesAsync();
+
+                    var service = await db.Services.FindAsync(visiting.ServicecId);
+                    double totalCost = service.PricePerService * visiting.NumberOfHours;
+                    TempData["TotalCost"] = totalCost.ToString();
+
                     TempData["SuccessMessage"] = "Бронирование успешно создано";
                     return RedirectToAction("Index");
                 }

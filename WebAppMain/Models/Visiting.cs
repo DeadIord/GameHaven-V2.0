@@ -14,6 +14,7 @@ namespace WebAppMain.Models
         public DateTime DateAndTimeOfTheVisitEnd { get; set; }
         public string Status { get; set; }
         public int NumberOfHours { get; set; }
+        public double TotalCost { get; set; }
 
         public int ServicecId { get; set; }
         public int HallsId { get; set;}

@@ -96,6 +96,10 @@
                                 <td>@visiting.Halls.Computers.FirstOrDefault(c => c.ComputerId == visiting.ComputerId)?.ComputerName</td>
                             </tr>
                             <tr>
+                                <th style="padding-right:15px">Компьютер: </th>
+                                <td>@visiting.TotalCost рублей</td>
+                            </tr>
+                            <tr>
                                 @if (await UserManager.IsInRoleAsync(visiting.ApplicationUser, "Гость"))
                                 {
 

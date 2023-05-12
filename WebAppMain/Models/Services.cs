@@ -12,7 +12,7 @@ namespace WebAppMain.Models
         public string NameOfTheService { get; set; }
         [Display(Name = "Стоимость")]
         [Required(ErrorMessage = "Стоимость не указана")]
-        public string PricePerService { get; set; }
+        public int PricePerService { get; set; }
 
         public ICollection<Visiting> Visitings { get; set; }
     }
