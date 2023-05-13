@@ -14,10 +14,10 @@
         <label>Filter by Class</label>
         <select asp-for="constantFilter" class="form-control">
             <option value="">All</option>
-            @foreach (var constantFilter in Model.Visiting)
-            {
-                <option value="@constantFilter.Status">@constantFilter.Status</option>
-            }
+
+            <option value="Подтвержден">Подтвержден</option>
+            <option value="Не подтвержден">Не подтвержден</option>
+
         </select>
     </div>
     <button type="submit" class="btn btn-primary">Filter</button>
@@ -51,105 +51,97 @@
 <div class="card-tableNew">
     <div class="card-header">
     </div>
-    @foreach (var visiting in Enumerable.Reverse(Model.Visiting))
-    {
-        <div class="card-body">
+    <div class="row">
+        @foreach (var visiting in Model.Visiting)
+        {
+            <div class="col-md-4 col-sm-6 col-12 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Посетитель: </h5>
+                        <div>
+                            <span class="card-text">
 
-            <table style="display:table">
-                <tr>
-                    <td>
-                        <table style="display:inline-table">
-
-                            <tr>
-                                <th style="padding-right:15px">Посетитель: </th>
                                 @if (await UserManager.IsInRoleAsync(visiting.ApplicationUser, "Гость"))
                                 {
-                                    <td>@visiting.ApplicationUser.UserName</td>
+                                    @visiting.ApplicationUser.UserName
                                 }
                                 else
                                 {
-                                    <td>@visiting.Visitor.Name</td>
+                                    @visiting.Visitor.Name
                                 }
-                            </tr>
-                            <tr>
-                                <th style="padding-right:15px">Услуга: </th>
-                                <td>@visiting.Services.NameOfTheService</td>
-                            </tr>
-                            <tr>
-                                <th style="padding-right:15px">Дата посещения: </th>
-                                <td>@visiting.DateAndTimeOfTheVisit.ToString("dd.MM.yyyy")</td>
-                            </tr>
-                            <tr>
-                                <th style="padding-right:15px">Время посещения: </th>
-                                <td>@visiting.DateAndTimeOfTheVisit.ToString("HH.mm")</td>
-                            </tr>
-                            <tr>
-                                <th style="padding-right:15px">Количество часов: </th>
-                                <td>@visiting.NumberOfHours</td>
-                            </tr>
-                            <tr>
-                                <th style="padding-right:15px">Зал: </th>
-                                <td>@visiting.Halls.HallsName</td>
-                            </tr>
-                            <tr>
-                                <th style="padding-right:15px">Компьютер: </th>
-                                <td>@visiting.Halls.Computers.FirstOrDefault(c => c.ComputerId == visiting.ComputerId)?.ComputerName</td>
-                            </tr>
-                            <tr>
-                                <th style="padding-right:15px">Компьютер: </th>
-                                <td>@visiting.TotalCost рублей</td>
-                            </tr>
-                            <tr>
-                                @if (await UserManager.IsInRoleAsync(visiting.ApplicationUser, "Гость"))
-                                {
+                            </span>
+                        </div>
+                        <span class="card-text">Услуга: @visiting.Services.NameOfTheService</span>
+                        <div>
+                            <span class="card-text">Дата посещения: @visiting.DateAndTimeOfTheVisit.ToString("g")</span>
+                        </div>
+                        @*  <div>
+                    <span class="card-text">Время посещения: @visiting.DateAndTimeOfTheVisit.ToString("HH.mm")</span>
+                    </div>*@
+                        <div>
+                            <span class="card-text">Количество часов: @visiting.NumberOfHours</span>
+                        </div>
+                        <div>
+                            <span class="card-text">Стоимость: @visiting.TotalCost рублей</span>
+                        </div>
+                        <div>
+                            <span class="card-text">@visiting.Halls.HallsName</span>
+                        </div>
+                        <div>
+                            <span class="card-text"> @visiting.Halls.Computers.FirstOrDefault(c => c.ComputerId == visiting.ComputerId)?.ComputerName</span>
+                        </div>
 
-                                }
-                                else
-                                {
-                                    <th style="padding-right:15px">Сотрудник: </th>
-                                    <td>@visiting.ApplicationUser.UserName</td>
-                                }
-                            </tr>
-                            <tr>
-                                <th style="padding-right:15px">Статус: </th>
-                                <td>
-                                    <form method="post" action="@Url.Action("ChangeStatus", "Visiting")">
-                                        <div class="form-row" style="margin-top: 20px;">
-                                            <div class="col-md-6 mb-3">
 
-                                                <input type="hidden" name="orderId" value="@visiting.VisitingId" />
-                                                <select name="newStatus" class="custom-select">
-                                                    <option value="Не подтвержден" selected="@(visiting.Status == "Не подтвержден")">Не подтвержден</option>
-                                                    <option value="Подтвержден" selected="@(visiting.Status == "Подтвержден")">Подтвержден</option>
+                        @if (await UserManager.IsInRoleAsync(visiting.ApplicationUser, "Гость"))
+                        {
+                            <div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <span class="card-text">Сотрудник: @visiting.ApplicationUser.UserName</span>
+                            </div>
 
-                                                </select>
 
-                                            </div>
-                                            <div class="col-md-4 mb-3">
-                                                <button type="submit" class="btn btn-primary">Сохранить</button>
-                                            </div>
-                                        </div>
-                                    </form>
+                        }
 
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
+                        <form method="post" action="@Url.Action("ChangeStatus", "Visiting")">
+                            <div class="form-row" style="margin-top: 20px;">
+                                <div class="col-md-6 mb-3">
+                                    <input type="hidden" name="orderId" value="@visiting.VisitingId" />
+                                    <select name="newStatus" class="custom-select">
+                                        <option value="Не подтвержден" selected="@(visiting.Status == "Не подтвержден")">Не подтвержден</option>
+                                        <option value="Подтвержден" selected="@(visiting.Status == "Подтвержден")">Подтвержден</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="progress">
+                            <div class="progress-bar timer-progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div>
+                            <span class="card-text">Осталось времени: <span class="timer" data-start-date="@visiting.DateAndTimeOfTheVisit.ToString("yyyy-MM-dd HH:mm:ss")" data-end-date="@visiting.DateAndTimeOfTheVisitEnd.ToString("yyyy-MM-dd HH:mm:ss")" data-timer-id="timer1"></span></span>
+                        </div>
 
-        </div>
-        <div class="card-footer">
-            <form asp-action="Delete" asp-route-id="@visiting.VisitingId" method="post">
-                <a asp-action="EditVisiting" asp-controller="Visiting" asp-route-id="@visiting.VisitingId" class="btn btn-primary">Редактирование</a>
-                <button type="submit" class="btn btn-danger"
-                        onclick="return confirm('Вы уверены что хотите удалить информацию о посещении?')">
-                    Удаление
-                </button>
-            </form>
-        </div>
-    }
 
+                    </div>
+                    <div class="card-footer">
+                        <form asp-action="Delete" asp-route-id="@visiting.VisitingId" method="post">
+                            <a asp-action="EditVisiting" asp-controller="Visiting" asp-route-id="@visiting.VisitingId" class="btn btn-primary">Редактирование</a>
+                            <button type="submit" class="btn btn-danger"
+                                    onclick="return confirm('Вы уверены что хотите удалить информацию о посещении?')">
+                                Удаление
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 
 
     <div class="row">
@@ -188,3 +180,51 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Функция для обновления таймера и прогресс-бара
+    function updateTimerAndProgressBar(endDate, element) {
+        var now = new Date().getTime();
+        var distance = endDate - now;
+
+        // Рассчитываем оставшееся время
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Обновляем содержимое элемента с таймером
+        element.innerHTML = days + " дн. " + hours + " ч. " + minutes + " мин. " + seconds + " сек.";
+
+        // Рассчитываем прогресс-бар
+        var startDate = new Date(element.dataset.startDate).getTime();
+        var totalDuration = endDate - startDate;
+        var progress = 100 - (distance / totalDuration) * 100;
+
+        // Обновляем прогресс-бар
+        var progressBar = element.closest('.card-body').querySelector('.progress-bar');
+        progressBar.style.width = progress + "%";
+
+        // Если время истекло, обновляем содержимое элемента и прогресс-бара
+        if (distance < 0) {
+            element.innerHTML = "Время истекло";
+            progressBar.style.width = "100%";
+        }
+    }
+
+    // Обновляем все таймеры и прогресс-бары на странице
+    function updateTimersAndProgressBars() {
+        var timerElements = document.querySelectorAll('.timer');
+        timerElements.forEach(function (element) {
+            var endDateString = element.getAttribute('data-end-date');
+            var endDate = new Date(endDateString).getTime();
+            updateTimerAndProgressBar(endDate, element);
+        });
+    }
+
+    // Вызываем функцию обновления таймеров и прогресс-баров при загрузке страницы и каждую секунду
+    window.addEventListener('DOMContentLoaded', function () {
+        updateTimersAndProgressBars();
+        setInterval(updateTimersAndProgressBars, 1000);
+    });
+    </script>

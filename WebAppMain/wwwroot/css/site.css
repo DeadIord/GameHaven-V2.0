@@ -74,18 +74,26 @@ html {
 
 .computer {
     display: inline-block;
-    width: 50px;
-    height: 50px;
+    width: 85px;
+    height: 75px;
     margin: 5px;
     text-align: center;
     line-height: 50px;
     font-weight: bold;
+    font-size: 12px;
 }
 
 .free {
     background-image: url("../img/green.png");
+    background-size: cover;
 }
 
 .busy {
     background-image: url("../img/red.png");
+    background-size: cover;
+}
+.timer {
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
 }

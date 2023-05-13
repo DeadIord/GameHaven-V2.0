@@ -54,9 +54,9 @@ namespace WebAppMain.Controllers
 
                 visiting = visiting.Where(u => u.Status != null && u.Status != null && u.Status.Contains(constantFilter)).ToList();
             }
-
+            visiting = visiting.OrderByDescending(u => u.DateAndTimeOfTheVisitEnd).ToList();
             //устанавливаем размер страницы и получаем количество страниц
-            int pageSize = 10;
+            int pageSize = 12;
             int pageNumber = (page ?? 1);
             int totalUsers = visiting.Count();
             int totalPages = (int)Math.Ceiling((decimal)totalUsers / pageSize);
