@@ -11,78 +11,34 @@
        class="btn btn-primary mb-3" style="width:auto">
         Добавить новый зал
     </a>
-    <div class="card-tableNew">
-        <table class="table table-striped">
-            <thead>
-                <tr>
 
-                    <th>Зал</th>
-                    <th>Действие</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var hall in Model)
-                {
-                    <div asp-validation-summary="All" class="text-danger"></div>
-                    <tr>
+    <div class="row">
 
-                        <td>@hall.HallsName</td>
-                        <td>
-                            <form asp-action="Delete" asp-route-id="@hall.HallsId" method="post">
+        @foreach (var hall in Model)
+        {
+            <div class="col-sm-4">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">@hall.HallsName</h5>
+                        <form asp-action="Delete" asp-route-id="@hall.HallsId" method="post">
 
-                                <a asp-action="EditHalls" asp-controller="Halls" asp-route-id="@hall.HallsId" class="btn btn-primary">Редактирование</a>
+                            <a asp-action="EditHalls" asp-controller="Halls" asp-route-id="@hall.HallsId" class="btn btn-primary btn-sm mt-2">Редактирование</a>
+                            <partial name="Details" model="@hall" />
+                            
+                            <button type="submit" class="btn btn-danger btn-sm mt-2"
+                                    onclick="return confirm('Вы уверены что хотите удалить данный зал: @hall.HallsName')">
+                                Удаление
+                            </button>
 
-                                <button type="submit" class="btn btn-danger" style="  margin-top: 5px; margin-bottom: 5px;"
-                                        onclick="return confirm('Вы уверены что хотите удалить данный зал: @hall.HallsName')">
-                                    Удаление
-                                </button>
-                                <button class="btn btn-primary" type="button" data-toggle="collapse" ; data-target="#collapse@(hall.HallsId)" aria-expanded="false" aria-controls="collapse@(hall.HallsId)">
-                                    Подключенные компьютеры
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                    @if (hall.Computers != null)
-                    {
-                        <tr>
-                            <td colspan="3">
-                                <div class="collapse" id="collapse@(hall.HallsId)">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
+                        </form>
+                        
+                    </div>
+                </div>
+            </div>
+        }
 
-                                                <th>Компьютер</th>
-                                                <th>Комплектующие</th>
-                                                <th>Дата последнего обслуживания</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                            @foreach (var computer in hall.Computers)
-                                            {
-                                                <tr>
-
-                                                    <td>@computer.ComputerName</td>
-                                                    <td style="white-space: pre-wrap">@computer.CompanyName</td>
-                                                    <td>@computer.DateOfLastService.ToString("dd.MM.yyyy")</td>
-                                                </tr>
-                                            }
-
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                    else
-                    {
-
-                    }
-                }
-            </tbody>
-        </table>
     </div>
+
 }
 else
 {

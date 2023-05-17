@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebAppMain.Migrations
 {
-    public partial class _1 : Migration
+    public partial class zyz : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -73,7 +73,7 @@ namespace WebAppMain.Migrations
                     ServicesId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NameOfTheService = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PricePerService = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    PricePerService = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -273,22 +273,16 @@ namespace WebAppMain.Migrations
                     DateAndTimeOfTheVisitEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NumberOfHours = table.Column<int>(type: "int", nullable: false),
+                    TotalCost = table.Column<double>(type: "float", nullable: false),
                     ServicecId = table.Column<int>(type: "int", nullable: false),
                     HallsId = table.Column<int>(type: "int", nullable: false),
                     ComputerId = table.Column<int>(type: "int", nullable: false),
-                    VisitorsId = table.Column<int>(type: "int", nullable: false),
+                    VisitorsId = table.Column<int>(type: "int", nullable: true),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Visiting", x => x.VisitingId);
-                    table.ForeignKey(
-                        name: "FK_Visiting_Computers_ComputerId",
-                        column: x => x.ComputerId,
-                        principalSchema: "Identity",
-                        principalTable: "Computers",
-                        principalColumn: "ComputerId",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Visiting_Halls_HallsId",
                         column: x => x.HallsId,
@@ -316,7 +310,7 @@ namespace WebAppMain.Migrations
                         principalSchema: "Identity",
                         principalTable: "Visitors",
                         principalColumn: "VisitorsId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -378,12 +372,6 @@ namespace WebAppMain.Migrations
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Visiting_ComputerId",
-                schema: "Identity",
-                table: "Visiting",
-                column: "ComputerId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Visiting_HallsId_ComputerId_DateAndTimeOfTheVisit",
                 schema: "Identity",
                 table: "Visiting",
@@ -401,11 +389,16 @@ namespace WebAppMain.Migrations
                 schema: "Identity",
                 table: "Visiting",
                 column: "VisitorsId",
-                unique: true);
+                unique: true,
+                filter: "[VisitorsId] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Computers",
+                schema: "Identity");
+
             migrationBuilder.DropTable(
                 name: "RoleClaims",
                 schema: "Identity");
@@ -435,7 +428,7 @@ namespace WebAppMain.Migrations
                 schema: "Identity");
 
             migrationBuilder.DropTable(
-                name: "Computers",
+                name: "Halls",
                 schema: "Identity");
 
             migrationBuilder.DropTable(
@@ -448,10 +441,6 @@ namespace WebAppMain.Migrations
 
             migrationBuilder.DropTable(
                 name: "Visitors",
-                schema: "Identity");
-
-            migrationBuilder.DropTable(
-                name: "Halls",
                 schema: "Identity");
 
             migrationBuilder.DropTable(

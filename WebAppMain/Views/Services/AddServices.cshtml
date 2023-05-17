@@ -3,28 +3,29 @@
     ViewBag.Title = "Добавление Услуги";
 }
 <form asp-action="AddServices" asp-controller="Services">
-     <div class="card-3d-wrap mx-auto">
-        <div class="card-front">
-            <div class="center-wrap">
-            <div class="form-group">
-                <label asp-for="NameOfTheService" class="control-label">Услуга</label>
-                    <input type="text" asp-for="NameOfTheService" placeholder="Услуга" class="form-style" />
-                <span asp-validation-for="NameOfTheService" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                    <label asp-for="PricePerService" class="control-label">Стоимость</label>
-                    <input type="number" placeholder="Стоимость" asp-for="PricePerService" class="form-style" />
-                    <span asp-validation-for="PricePerService" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Создать</button>
-                    <a asp-action="ListServices" class="btn btn-primary">Отмена</a>
+    <div class="container ">
+        <div class="card shadow roundeds">
+            <div class="center-wrap m-4">
+                <h4 class="text-lg-center">Добавление услуги</h4>
+                <div class="form-group">
+                    <label asp-for="NameOfTheService" class="control-label">Услуга</label>
+                    <input type="text" asp-for="NameOfTheService" placeholder="Название услуги" class="form-control" />
+                    <span asp-validation-for="NameOfTheService" class="text-danger"></span>
                 </div>
+                <div class="form-group">
+                    <label asp-for="PricePerService" class="control-label">Стоимость</label>
+                    <input type="number" placeholder="Стоимость" asp-for="PricePerService" class="form-control" />
+                    <span asp-validation-for="PricePerService" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Создать</button>
+                    <a asp-action="ListServices" class="btn btn-link">Отмена</a>
+                </div>
+            </div>
         </div>
     </div>
-</div>
- 
+
 </form>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

@@ -1,0 +1,53 @@
+﻿@model Halls
+
+<form asp-action="Details" method="post">
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">@Model.HallsName</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @foreach (var computer in Model.Computers)
+                    {
+                        <ul class="list-group mt-2">
+                            <li class="list-group-item">
+                                <div class="accordions" onclick="toggleAccordion(this)">@computer.ComputerName</div>
+                                <div class="panel">
+                                    <div class="form-group">
+                                        <label class="control-label">@computer.CompanyName</label>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    }
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" asp-for="HallsId" />
+
+    <button type="button" class="btn btn-primary btn-sm mt-2" data-toggle="modal" data-target="#deleteModal">
+        Компютеры
+    </button>
+</form>
+<script>
+    function toggleAccordion(element) {
+        element.classList.toggle('active');
+        var panel = element.nextElementSibling;
+        if (panel.style.maxHeight) {
+            panel.style.maxHeight = null;
+        } else {
+            panel.style.maxHeight = panel.scrollHeight + 'px';
+        }
+    }
+</script>

@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="~/css/accordion.css" />
     <link rel="stylesheet" href="~/css/Customization.css" />
     <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
+
 
 </head>
 <body>
@@ -29,50 +32,50 @@
                         {
 
                             <li>
-                                <a class="nav-link text-dark bi bi-bookmark-plus" asp-controller="Services" asp-action="ListServices">Услуги </a>
+                                <a class="nav-link text-dark " asp-controller="Services" asp-action="ListServices">Услуги </a>
                             </li>
                             <li>
-                                <a class="nav-link text-dark bi bi-bookmark-plus" asp-controller="Computer" asp-action="ListComputer">Компьютеры </a>
+                                <a class="nav-link text-dark " asp-controller="Computer" asp-action="ListComputer">Компьютеры </a>
                             </li>
                             <li>
-                                <a class="nav-link text-dark bi bi-bookmark-plus" asp-controller="Halls" asp-action="ListHalls">Залы </a>
+                                <a class="nav-link text-dark " asp-controller="Halls" asp-action="ListHalls">Залы </a>
                             </li>
                             <li>
-                                <a  class="nav-link text-dark bi bi-bookmark-plus" asp-controller="Visitor" asp-action="ListVisitor">Посетители </a>
+                                <a  class="nav-link text-dark " asp-controller="Visitor" asp-action="ListVisitor">Посетители </a>
                             </li>
                             <li>
-                                <a  class="nav-link text-dark bi bi-bookmark-plus" asp-controller="Visiting" asp-action="ListVisiting">Посещение </a>
+                                <a  class="nav-link text-dark " asp-controller="Visiting" asp-action="ListVisiting">Посещение </a>
                             </li>
                             <li>
-                                <a class="nav-link text-dark bi bi-bookmark-plus" asp-controller="UserRoles" asp-action="Index">Роли </a>
+                                <a class="nav-link text-dark " asp-controller="UserRoles" asp-action="Index">Роли </a>
                             </li>
                             <li>
-                                <a class="nav-link text-dark bi bi-bookmark-plus" asp-controller="User" asp-action="ListUsers">Пользователи </a>
+                                <a class="nav-link text-dark " asp-controller="User" asp-action="ListUsers">Пользователи </a>
                             </li>
 
                         }
                         @if (signInManager.IsSignedIn(User) && User.IsInRole("Сотрудник"))
                         {
                             <li>
-                                <a class="nav-link text-dark bi bi-bookmark-plus"  asp-controller="Services" asp-action="ListServices">Услуги </a>
+                                <a class="nav-link text-dark "  asp-controller="Services" asp-action="ListServices">Услуги </a>
                             </li>
                             <li>
-                                <a class="nav-link text-dark bi bi-bookmark-plus" asp-controller="Computer" asp-action="ListComputer">Компьютеры </a>
+                                <a class="nav-link text-dark " asp-controller="Computer" asp-action="ListComputer">Компьютеры </a>
                             </li>
                             <li>
-                                <a class="nav-link text-dark bi bi-bookmark-plus" asp-controller="Halls" asp-action="ListHalls">Залы </a>
+                                <a class="nav-link text-dark " asp-controller="Halls" asp-action="ListHalls">Залы </a>
                             </li>
                             <li>
-                                <a class="nav-link text-dark bi bi-bookmark-plus" asp-controller="Visitor" asp-action="ListVisitor">Посетители </a>
+                                <a class="nav-link text-dark " asp-controller="Visitor" asp-action="ListVisitor">Посетители </a>
                             </li>
                             <li>
-                                <a class="nav-link text-dark bi bi-bookmark-plus" asp-controller="Visiting" asp-action="ListVisiting">Посещение </a>
+                                <a class="nav-link text-dark " asp-controller="Visiting" asp-action="ListVisiting">Посещение </a>
                             </li>
                         }
                         @if (signInManager.IsSignedIn(User) && User.IsInRole("Гость"))
                         {
                              <li>
-                                <a class="nav-link text-dark bi bi-bookmark-plus" asp-controller="Home" asp-action="AddVisitingGuest">запись </a>
+                                <a class="nav-link text-dark " asp-controller="Home" asp-action="AddVisitingGuest">запись </a>
                             </li>                            
                         }
                     </ul>
@@ -87,14 +90,11 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - WebAppMain -
-        </div>
-    </footer>
+    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

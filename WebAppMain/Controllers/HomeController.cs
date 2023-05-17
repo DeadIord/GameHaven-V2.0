@@ -31,6 +31,7 @@ namespace WebAppMain.Controllers
 
         public async Task<IActionResult> Index(string userId, string code)
         {
+
             var lastVisiting = await db.Visiting
               .Where(v => v.ApplicationUserId == userId)
               .OrderByDescending(v => v.DateAndTimeOfTheVisit)
@@ -41,7 +42,21 @@ namespace WebAppMain.Controllers
                 ViewBag.TotalCost = lastVisiting.TotalCost;
             }
 
-            return View();
+            if (userId == null || code == null)
+            {
+                return View();
+            }
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return View();
+            }
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (result.Succeeded)
+                return RedirectToAction("Index", "Home");
+            else
+                return View();
+        
         }
 
        

@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using WebAppMain.Models;
 using System.Net.Mail;
+using Newtonsoft.Json;
 
 namespace WebAppMain.Areas.Identity.Pages.Account
 {
@@ -94,18 +95,6 @@ namespace WebAppMain.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var userName = Input.Email;
-                if (IsValidEmail(Input.Email)) //проверяет, являются ли введенные данные действительным электронным письмом или нет
-                {
-                    /*Если это действительное электронное письмо, мы хотели бы получить имя пользователя, 
-                      связанное с конкретным идентификатором электронной почты*/
-                    var user = await _userManager.FindByEmailAsync(Input.Email); //получить пользователя для идентификатора электронной почты
-
-                    if (user != null)
-                    {
-                        userName = user.UserName; //Из объекта user получите имя пользователя
-                    }
-                }
                 using (var client = new HttpClient())
                 {
                     var response = await client.PostAsync("https://www.google.com/recaptcha/api/siteverify", new FormUrlEncodedContent(new Dictionary<string, string>
@@ -114,39 +103,57 @@ namespace WebAppMain.Areas.Identity.Pages.Account
                         { "response", Request.Form["g-recaptcha-response"] }
                     }));
 
-                    // This doesn't count login failures towards account lockout
-                    // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                    var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                    if (!result.Succeeded && userName != Input.Email)
+                    if (response.IsSuccessStatusCode)
                     {
-                        result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                    }
+                        var json = await response.Content.ReadAsStringAsync();
+                        var result = JsonConvert.DeserializeObject<RecaptchaResponse>(json);
 
-                    if (result.Succeeded)
-                    {
-                        _logger.LogInformation("User logged in.");
-                        return LocalRedirect(returnUrl);
-                    }
-                    if (result.RequiresTwoFactor)
-                    {
-                        return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                    }
-                    if (result.IsLockedOut)
-                    {
-                        _logger.LogWarning("User account locked out.");
-                        return RedirectToPage("./Lockout");
+                        if (result.Success) // Проверка успешного прохождения ReCAPTCHA
+                        {
+                            var userName = Input.Email;
+                            if (IsValidEmail(Input.Email))
+                            {
+                                var user = await _userManager.FindByEmailAsync(Input.Email);
+                                if (user != null)
+                                {
+                                    userName = user.UserName;
+                                }
+                            }
+
+                            var signInResult = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                            if (!signInResult.Succeeded && userName != Input.Email)
+                            {
+                                signInResult = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                            }
+                            if (signInResult.Succeeded)
+                            {
+                                _logger.LogInformation("User logged in.");
+                                return LocalRedirect(returnUrl);
+                            }
+                            if (signInResult.RequiresTwoFactor)
+                            {
+                                return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                            }
+                            if (signInResult.IsLockedOut)
+                            {
+                                _logger.LogWarning("User account locked out.");
+                                return RedirectToPage("./Lockout");
+                            }
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, "Failed to pass the ReCAPTCHA verification.");
+                        }
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                        return Page();
+                        ModelState.AddModelError(string.Empty, "Failed to communicate with the ReCAPTCHA verification server.");
                     }
                 }
-
             }
+
             // If we got this far, something failed, redisplay form
             return Page();
-
         }
     }
 }

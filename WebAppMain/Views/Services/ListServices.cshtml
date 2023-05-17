@@ -2,54 +2,42 @@
 @{
     ViewBag.Title = "Все Услуги";
 }
-<h1>Все Услуги</h1>
+
 
 @if (Model.Any())
 {
     <a asp-action="AddServices"
-   class="btn btn-primary mb-3" style="width:auto">
+       class="btn btn-primary mb-3" style="width:auto">
         Добавить новую услугу
     </a>
+    <div class="row">
+        @foreach (var services in Model)
+        {
 
-    foreach (var services in Model)
-    {
-        <div class="card-tableNew">
-            <div class="card-header">
+            <div class="col-sm-4">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <small>Название услуги:</small>
+                        <h5 class="card-title" data-bs-toggle="tooltip" data-bs-placement="top" title="@services.NameOfTheService">
+                            @Html.Raw(Html.Encode(@services.NameOfTheService.Substring(0, Math.Min(35, @services.NameOfTheService.Length))))
+                        </h5>
+                        <small>Цена за услугу:</small>
+                        <p class="card-text">@services.PricePerService Р</p>
+                        
+                        <form asp-action="Delete" asp-route-id="@services.ServicesId" method="post">
+
+                            <a asp-action="EditServices" asp-controller="Services" asp-route-id="@services.ServicesId" class="btn btn-primary btn-sm">Редактирование</a>
+                            <button type="submit" class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Вы уверены что хотите удалить данную услугу: @services.NameOfTheService')">
+                                Удаление
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
 
-            <div class="card-body">
-
-                <table style="display:table">
-                    <tr>
-
-                        <td>
-                            <table style="display:inline-table">
-                                <tr>
-                                    <th style="padding-right:15px">Услуга: </th>
-                                    <td>@services.NameOfTheService</td>
-                                </tr>
-                                <tr>
-                                    <th style="padding-right:15px">Стоимость: </th>
-                                    <td>@services.PricePerService</td>
-                                </tr>
-
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="card-footer">
-                <form asp-action="Delete" asp-route-id="@services.ServicesId" method="post">
-                 
-                    <a asp-action="EditServices" asp-controller="Services" asp-route-id="@services.ServicesId" class="btn btn-primary">Редактирование</a>
-                    <button type="submit" class="btn btn-danger"
-                    onclick="return confirm('Вы уверены что хотите удалить данную услугу: @services.NameOfTheService')">
-                        Удаление
-                    </button>
-                </form>
-            </div>
-        </div>
-    }
+        }
+    </div>
 }
 else
 {

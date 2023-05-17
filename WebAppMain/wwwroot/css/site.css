@@ -97,3 +97,7 @@ html {
     text-align: center;
     font-weight: bold;
 }
+
+.roundeds {
+    border-radius: 1.25rem !important;
+}

@@ -71,7 +71,6 @@
                             {
                                 <option value="@item.value">@item.text</option>
                             }
-
                         }
                     </select>
                     <span asp-validation-for="HallsId" class="text-danger"></span>
@@ -159,6 +158,11 @@
     </script>
     <partial name="_ValidationScriptsPartial" />
 }
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        document.getElementById('halls-dropdown').value = '';
+    });
+</script>
 <script>
     // Получаем текущую дату и время
     var now = new Date();

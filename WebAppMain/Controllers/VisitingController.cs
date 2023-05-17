@@ -54,6 +54,7 @@ namespace WebAppMain.Controllers
 
                 visiting = visiting.Where(u => u.Status != null && u.Status != null && u.Status.Contains(constantFilter)).ToList();
             }
+
             visiting = visiting.OrderByDescending(u => u.DateAndTimeOfTheVisitEnd).ToList();
             //устанавливаем размер страницы и получаем количество страниц
             int pageSize = 12;
@@ -117,6 +118,8 @@ namespace WebAppMain.Controllers
                 {
                     ModelState.AddModelError("", "Этот компьютер уже занят, выберите другое время.");
                     await selectOptions();
+                    
+
                     return View(visiting);
                 }
                 else
@@ -186,6 +189,13 @@ namespace WebAppMain.Controllers
 
 
 
+        }
+        [HttpGet]
+        public IActionResult GetExpiredVisits()
+        {
+            var currentTime = DateTime.Now;
+            var expiredVisits = db.Visiting.Where(v => v.DateAndTimeOfTheVisitEnd < currentTime && v.DateAndTimeOfTheVisitEnd > currentTime.AddMinutes(-2)).ToList();
+            return Json(expiredVisits);
         }
         [HttpGet]
 

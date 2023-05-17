@@ -4,76 +4,63 @@
 }
 <h1>Все посетители</h1>
 
-
-
 @if (Model.Any())
 {
     <form method="get">
         <div class="card-3d-wrap mx-auto">
             <div class="card-front">
                 <div class="center-wrap">
-                <div class="input-group">
+                    <div class="input-group">
                         <input type="text" name="searchString" class="form-style" placeholder="Поиск по имени" style="margin-top: 5px;width:89%;">
-                    <div class="input-group-append">
+                        <div class="input-group-append">
                             <button class="btn btn-outline-secondary mr btnsecondary" type="submit">Поиск</button>
+                        </div>
                     </div>
-
-                </div
                 </div>
             </div>
         </div>
         <div class="form-group">
-            <button formmethod="post" class="btn btn-primary" asp-controller="Visitor" asp-action="Export" type="submit">
-                Export
-            </button>
-            <button asp-action="AddVisitor" class="btn btn-primary" >
-                Добавить нового посетителя
-            </button>
+            <a asp-action="AddVisitor" class="btn btn-primary">Добавить нового посетителя</a>
         </div>
-
     </form>
 
-
-
-    foreach (var visitor in Enumerable.Reverse(Model))
-    {
-        <div class="card-tableNew">
-            <div class="card-header">
-            </div>
-
-            <div class="card-body">
-
-                <table style="display:table">
-                    <tr>
-
+    <div class="card-tableNew">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ФИО</th>
+                    <th>Постоянный клиент</th>
+                    <th>Дата рожедния</th>
+                    <th>Интсрументы</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var visitor in Enumerable.Reverse(Model))
+                {
+                    <tr class="accordion" data-toggle="collapse" data-target="#collapse@(visitor.VisitorsId)" aria-expanded="false" aria-controls="collapse@(visitor.VisitorsId)">
+                        <td>@visitor.Name</td>
+                        <td>@visitor.Constant</td>
+                        <td>@visitor.DateOfBirth?.ToString("dd.MM.yyyy")</td>
                         <td>
-                            <table style="display:inline-table">
-                                <tr>
-                                    <th style="padding-right:15px">ФИО: </th>
-                                    <td>@visitor.Name</td>
-                                </tr>
-                                <tr>
-                                    <th style="padding-right:15px">Постоянный посетитель: </th>
-                                    <td>@visitor.Constant</td>
-                                </tr>
-
-                            </table>
+                            <form asp-action="Delete" asp-route-id="@visitor.VisitorsId" method="post">
+                                <a asp-action="EditVisitor" asp-controller="Visitor" asp-route-id="@visitor.VisitorsId" class="btn btn-primary">Редактирование</a>
+                                <button class="btn btn-danger" onclick="return confirm('Вы уверены что хотите удалить данного пользователя: @visitor.Name')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
-                </table>
-            </div>
-            <div class="card-footer">
-                <form asp-action="Delete" asp-route-id="@visitor.VisitorsId" method="post">
-
-                    <a asp-action="EditVisitor" asp-controller="Visitor" asp-route-id="@visitor.VisitorsId" class="btn btn-primary">Редактирование</a>
-                    <button type="submit" class="btn btn-danger"
-                    onclick="return confirm('Вы уверены что хотите удалить данного пользователя: @visitor.Name')">
-                        Удаление
-                    </button>
-                </form>
-            </div>
-        </div>
-    }
+                    <tr>
+                        <td colspan="3">
+                            <div id="collapse@(visitor.VisitorsId)" class="collapse">
+                                <p>Адрес Проживания: @visitor.Addres</p>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
 else
 {
@@ -85,10 +72,28 @@ else
             <h5 class="card-title">
                 Используйте кнопку ниже, чтобы добавить посетителя
             </h5>
-            <a class="btn btn-primary" style="width:auto"
-           asp-action="AddVisitor">
-                Добавить добавить посетителя
-            </a>
+            <a class="btn btn-primary" style="width:auto" asp-action="AddVisitor">Добавить посетителя</a>
         </div>
     </div>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var accordions = document.getElementsByClassName("accordion");
+
+            for (var i = 0; i < accordions.length; i++) {
+                accordions[i].addEventListener("click", function () {
+                    this.classList.toggle("active");
+
+                    var panel = this.nextElementSibling;
+                    if (panel.style.maxHeight) {
+                        panel.style.maxHeight = null;
+                    } else {
+                        panel.style.maxHeight = panel.scrollHeight + "px";
+                    }
+                });
+            }
+        });
+    </script>
 }
