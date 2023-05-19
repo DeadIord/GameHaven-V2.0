@@ -50,7 +50,8 @@ namespace WebAppMain.Areas.Identity.Pages.Account
            
             public string Email { get; set; }
 
-            [Required]
+            [Display(Name = "Пароль")]
+            [Required(ErrorMessage = "ведите пароль")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
@@ -139,15 +140,20 @@ namespace WebAppMain.Areas.Identity.Pages.Account
                                 _logger.LogWarning("User account locked out.");
                                 return RedirectToPage("./Lockout");
                             }
+                            else
+                            {
+                                ModelState.AddModelError(string.Empty, "Не вверно ввеленные данные.");
+                                return Page();
+                            }
                         }
                         else
                         {
-                            ModelState.AddModelError(string.Empty, "Failed to pass the ReCAPTCHA verification.");
+                            ModelState.AddModelError(string.Empty, "Не удалось пройти проверку reCAPTCHA.");
                         }
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "Failed to communicate with the ReCAPTCHA verification server.");
+                        ModelState.AddModelError(string.Empty, "Не удалось установить связь с сервером проверки reCAPTCHA.");
                     }
                 }
             }

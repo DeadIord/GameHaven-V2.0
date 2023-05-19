@@ -10,42 +10,60 @@
 }
 
 <form asp-action="EditVisiting" asp-controller="Visiting" asp-route-VisitingId="@Model.VisitingId">
-    <div class="card-3d-wrap mx-auto">
-        <div class="card-front">
-            <div class="center-wrap">
-                <div>
+    <div class="container ">
+        <div class="card shadow roundeds">
+            <div class="center-wrap m-4">
+                <h4 class="text-lg-center">Добавление услуги</h4>
+                <div class="form-group">
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <label asp-for="VisitingId" class="control-label">Посетитель</label>
-                    <input type="hidden" asp-for="VisitorsId" value="@Model.VisitorsId">
-                    <input type="hidden" asp-for="ApplicationUserId" value="@Model.ApplicationUserId">
-
-
-
-
+                    <input type="text" asp-for="@Model.Visitor.Name" placeholder="Посетитель" class="form-control" />             
+                    <hr />
+                    <div class="accordions">Дополнительная информация</div>
+                    <div class="panel">
+                        <div class="form-group">
+                            <label asp-for="@Model.Visitor.Addres" class="control-label">Адрес</label>
+                            <input type="text" placeholder="Адрес" asp-for="@Model.Visitor.Addres" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Visitor.DateOfBirth" class="control-label">Дата рождения</label>
+                            <input type="date" asp-for="@Model.Visitor.DateOfBirth" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Visitor.Constant" class="control-label">Постоянный клиент</label>
+                            <select class="form-control" asp-for="@Model.Visitor.Constant">
+                                <option value="">Выберите тип</option>
+                                <option>Да</option>
+                                <option>Нет</option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr />
                 </div>
-                <label asp-for="ServicecId" class="control-label">Услуга</label>
-                <select class="form-style" asp-for="ServicecId">
-                    @if (z != null)
-                        @foreach (var item in (List<VisitingController.SelectOptions>)z)
-                        {
-                            <option value="@item.value">@item.text</option>
-                        }
-                </select>
-                <span asp-validation-for="ServicecId" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="ServicecId" class="control-label">Услуга</label>
+                    <select class="form-control" asp-for="ServicecId">
+                        @if (z != null)
+                            @foreach (var item in (List<VisitingController.SelectOptions>)z)
+                            {
+                                <option value="@item.value">@item.text</option>
+                            }
+                    </select>
+                    <span asp-validation-for="ServicecId" class="text-danger"></span>
+                </div>
                 <div class="form-group">
                     <label asp-for="DateAndTimeOfTheVisit" class="control-label">Дата и время посещения</label>
-                    <input type="datetime-local" asp-for="DateAndTimeOfTheVisit" class="form-style" />
+                    <input type="datetime-local" id="date-in" asp-for="DateAndTimeOfTheVisit" class="form-control" />
                     <span asp-validation-for="DateAndTimeOfTheVisit" class="text-danger"></span>
                 </div>
-
                 <div class="form-group">
                     <label asp-for="NumberOfHours" class="control-label">Количество часов</label>
-                    <input type="number" placeholder="Количество часов" asp-for="NumberOfHours" class="form-style" />
+                    <input type="number" placeholder="Количество часов" asp-for="NumberOfHours" class="form-control" />
                     <span asp-validation-for="NumberOfHours" class="text-danger"></span>
                 </div>
-                <div>
+                <div class="form-group">
                     <label asp-for="HallsId" class="control-label">Зал</label>
-                    <select class="form-style" asp-for="HallsId" id="halls-dropdown">
+                    <select class="form-control" asp-for="HallsId" id="halls-dropdown">
                         <option value="">Выберите зал</option>
                         @if (h != null)
                         {
@@ -53,29 +71,29 @@
                             {
                                 <option value="@item.value">@item.text</option>
                             }
-
                         }
                     </select>
                     <span asp-validation-for="HallsId" class="text-danger"></span>
                 </div>
-                <div>
+                <div class="form-group">
                     <label asp-for="ComputerId" class="control-label">Компьютер</label>
-                    <select class="form-style" asp-for="ComputerId" id="computers-dropdown">
+                    <select class="form-control" asp-for="ComputerId" id="computers-dropdown">
                         <option value="">Выберите компьютер</option>
                     </select>
-                </div>           
-               
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Обновить</button>
-                <a asp-action="ListVisiting" class="btn btn-primary">Отмена</a>
+                </div>
 
+                <div id="computer-status-container" class="form-group">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Обновить</button>
+                    <a asp-action="ListVisiting" class="btn btn-link">Отмена</a>
+                </div>
             </div>
         </div>
-         
     </div>
    
 </form>
+
 
 @section scripts {
     <script>
@@ -100,11 +118,79 @@
             }).trigger("change");
         });
     </script>
+    <script>
+        $(function () {
+            $("#halls-dropdown, #date-in").on("input change", async function () {
+                const selectedDateTime = $("#date-in").val();
+                const selectedHallId = $("#halls-dropdown").val();
+                const computerStatus = await getComputerStatus(selectedHallId, selectedDateTime);
+                updateComputerBlocks(computerStatus);
+            });
+
+            async function getComputerStatus(hallId, selectedDateTime) {
+                const response = await fetch(`/Visiting/GetComputerStatus?hallId=${hallId}&selectedDateTime=${selectedDateTime}`);
+                const computerStatus = await response.json();
+                return computerStatus;
+            }
+
+            function updateComputerBlocks(computerStatus) {
+                const container = document.getElementById("computer-status-container");
+                container.innerHTML = "";
+
+                computerStatus.forEach((status) => {
+                    const computerBlock = document.createElement("div");
+                    computerBlock.classList.add("computer");
+
+                    if (status.isBusy) {
+                        computerBlock.classList.add("busy");
+                    } else {
+                        computerBlock.classList.add("free");
+                    }
+
+                    computerBlock.textContent = status.computerName;
+
+                    container.appendChild(computerBlock);
+                });
+            }
+
+            // Загрузка статуса компьютеров при загрузке страницы
+            const defaultDateTime = $("#date-in").val();
+            getComputerStatus(defaultDateTime).then(updateComputerBlocks);
+        });
+    </script>
     <partial name="_ValidationScriptsPartial" />
 }
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        document.getElementById('halls-dropdown').value = '';
+    });
+</script>
+<script>
+    // Получаем текущую дату и время
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = ('0' + (now.getMonth() + 1)).slice(-2);
+    var day = ('0' + now.getDate()).slice(-2);
+    var hours = ('0' + now.getHours()).slice(-2);
+    var minutes = ('0' + now.getMinutes()).slice(-2);
+
+    // Формируем строку в нужном формате (YYYY-MM-DDThh:mm)
+    var dateString = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
+
+    // Устанавливаем значение input
+    document.getElementById('date-in').value = dateString;
+</script>
+@*<script>
+    // Получаем текущую дату и время в нужном формате (YYYY-MM-DDThh:mm)
+    var dateString = new Date().toISOString().slice(0, 16);
+
+    // Устанавливаем значение input
+    document.getElementById('date-in').value = dateString;
+</script>
+*@
 
 <script>
-    var acc = document.getElementsByClassName("accordion");
+    var acc = document.getElementsByClassName("accordions");
     var i;
 
     for (i = 0; i < acc.length; i++) {

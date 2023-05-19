@@ -3,38 +3,40 @@
     ViewBag.Title = "Добавление посетителя";
 }
 <form asp-action="AddVisitor" asp-controller="Visitor">
-    <div class="card-3d-wrap mx-auto">
-        <div class="card-front">
-            <div class="center-wrap">
-            <div class="form-group">
-                <label asp-for="Name" class="control-label">ФИО</label>
-                <input type="text" asp-for="Name" placeholder="ФИО" class="form-style" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Addres" class="control-label">Адрес</label>
-                <input type="text" asp-for="Addres" placeholder="Адрес" class="form-style" />
-            </div>
-            <div class="form-group">
-                <label asp-for="DateOfBirth" class="control-label">Дата рождения</label>
-                <input type="date" asp-for="DateOfBirth" class="form-style" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Constant" class="control-label">Постоянный клиент</label>
-                <select class="form-style" asp-for="Constant">
-                        <option value="">Выберите тип</option>
-                    <option>Да</option>
-                    <option >Нет</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Создать</button>
-                    <a asp-action="ListVisitor" class="btn btn-primary">Отмена</a>
+    <div class="container ">
+        <div class="card shadow roundeds">
+            <div class="center-wrap m-4">
+                <h4 class="text-lg-center">Добавление компьютера</h4>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label">ФИО</label>
+                    <input type="text" asp-for="Name" placeholder="ФИО" class="form-control" />             
                 </div>
 
-         </div>
-     </div>
- </div>
+                <div class="form-group">
+                    <label asp-for="Addres" class="control-label">Адрес</label>
+                    <input type="text" asp-for="Addres" placeholder="Адрес" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateOfBirth" class="control-label">Дата рождения</label>
+                    <input type="date" asp-for="DateOfBirth" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Constant" class="control-label">Постоянный клиент</label>
+                    <select class="form-control" asp-for="Constant">
+                        <option value="">Выберите тип</option>
+                        <option>Да</option>
+                        <option>Нет</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Создать</button>
+                    <a asp-action="ListComputer" class="btn btn-primary">Отмена</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </form>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

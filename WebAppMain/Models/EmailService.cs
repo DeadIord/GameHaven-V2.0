@@ -10,7 +10,7 @@ namespace WebAppMain.Models
         {
             var emailMessage = new MimeMessage();
 
-            emailMessage.From.Add(new MailboxAddress("Чумурудный", "rky36981@gmail.com"));
+            emailMessage.From.Add(new MailboxAddress("GameHaven", "rky36981@gmail.com"));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)

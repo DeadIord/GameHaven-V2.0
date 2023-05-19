@@ -1,9 +1,9 @@
 ﻿.accordions {
-    background-color: #1f2029;
-    color: #c3c2c9;
+    background-color: #ffffff;
+    color: #000000;
     cursor: pointer;
-    margin-top: 5px;
-    padding: 18px;
+    margin-top: 2px;
+    padding: 8px;
     width: 100%;
     border: none;
     text-align: left;
@@ -13,24 +13,19 @@
 }
 
     .active, .accordions:hover {
-        background-color: #1f2029;
+        background-color: #ffffff;
     }
 
-    .accordion:after {
-        content: '\002B';
-        color: #777;
-        font-weight: bold;
-        float: right;
-        margin-left: 5px;
-    }
-
-.active:after {
-    content: "\2212";
+.accordion:after {
+    color: #000000;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
 }
 
 .panel {
     padding: 0 18px;
-    background-color: #2a2b38;
+    background-color: #ffffff;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;

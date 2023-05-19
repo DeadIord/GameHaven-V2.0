@@ -11,7 +11,7 @@
 
 <form asp-controller="Visiting" asp-action="ListVisiting">
     <div class="form-group">
-        <label>Filter by Class</label>
+        <label>Фильтрация статуса записи</label>
         <select asp-for="constantFilter" class="form-control">
             <option value="">All</option>
 
@@ -20,8 +20,8 @@
 
         </select>
     </div>
-    <button type="submit" class="btn btn-primary">Filter</button>
-    <a asp-controller="Visiting" asp-action="ListVisiting">Clear Filter</a>
+    <button type="submit" class="btn btn-primary">фильтр</button>
+    <a asp-controller="Visiting" asp-action="ListVisiting">Очистить фильтр</a>
 </form>
 
 <div class="col-md-3 ml-auto">
@@ -30,8 +30,8 @@
             <label></label>
             <input type="text" asp-for="SearchString" class="form-control" />
         </div>
-        <button type="submit" class="btn btn-primary">Search</button>
-        <a asp-controller="Visiting" asp-action="ListVisiting">Clear Search</a>
+        <button type="submit" class="btn btn-primary">Поиск</button>
+        <a asp-controller="Visiting" asp-action="ListVisiting">Очистить поиск</a>
     </form>
 </div>
 

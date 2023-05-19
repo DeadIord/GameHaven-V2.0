@@ -6,26 +6,29 @@
 }
 
 <form asp-action="AddComputer" asp-controller="Computer">
-    <div class="card-3d-wrap mx-auto">
-        <div class="card-front">
-            <div class="center-wrap">
+    <div class="container ">
+        <div class="card shadow roundeds">
+            <div class="center-wrap m-4">
+                <h4 class="text-lg-center">Добавление компьютера</h4>
                 <div class="form-group">
                     <label asp-for="ComputerName" class="control-label">Компьютер: </label>
-                    <input type="text" asp-for="ComputerName" placeholder="Компьютер" class="form-style" />
+                    <input type="text" asp-for="ComputerName" placeholder="Компьютер" class="form-control" />
                     <span asp-validation-for="ComputerName" class="text-danger"></span>
                 </div>
+
                 <div class="form-group">
                     <label asp-for="CompanyName" class="control-label">Комплектация:</label>
-                    <textarea type="text" cols="40" placeholder="Комплектация" rows="5" asp-for="CompanyName" class="form-style"></textarea>
+                    <textarea type="text" cols="40" placeholder="Комплектация" rows="5" asp-for="CompanyName" class="form-control"></textarea>
                     <span asp-validation-for="CompanyName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="DateOfLastService" class="control-label">Дата последнего обслуживания: </label>
-                    <input type="date" asp-for="DateOfLastService" placeholder="Компьютер" class="form-style" />
+                    <input type="date" asp-for="DateOfLastService" placeholder="Компьютер" class="form-control" />
                     <span asp-validation-for="DateOfLastService" class="text-danger"></span>
                 </div>
                 <label asp-for="HallsId" class="control-label">Зал</label>
-                <select class="form-style" asp-for="HallsId">
+                <div class="form-group">
+                <select class="form-control" asp-for="HallsId">
                     @if (a != null)
                     {
                         @foreach (var item in (List<ComputerController.SelectOptions>)a)
@@ -33,18 +36,22 @@
                             <option value="@item.value">@item.text</option>
                         }
 
-                    }       
+                    }
                 </select>
-                <span asp-validation-for="HallsId" class="text-danger"></span>           
+                <span asp-validation-for="HallsId" class="text-danger"></span>
+                </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Создать</button>
                     <a asp-action="ListComputer" class="btn btn-primary">Отмена</a>
-                 </div>
-              </div>
-
-         </div>
-
+                </div>
+            </div>
+        </div>
     </div>
+
+
+
+
+    
 </form>
 @section Scripts {
             <partial name="_ValidationScriptsPartial" />

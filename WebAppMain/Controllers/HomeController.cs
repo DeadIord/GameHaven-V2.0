@@ -86,7 +86,7 @@ namespace WebAppMain.Controllers
                 && v.DateAndTimeOfTheVisit <= visiting.DateAndTimeOfTheVisitEnd
                 && v.DateAndTimeOfTheVisitEnd >= visiting.DateAndTimeOfTheVisit);
 
-                if (isDuplicate)
+                if (!isDuplicate)
                 {
                     ModelState.AddModelError("", "На это время уже есть запись");
                     await selectOptions();

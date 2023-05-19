@@ -2,61 +2,52 @@
 @{
     ViewBag.Title = "Компьютеры";
 }
-<h1>Все Компьютеры</h1>
+
 
 @if (Model.Any())
 {
     <a asp-action="AddComputer"
-   class="btn btn-primary mb-3" style="width:auto">
-        Добавить новый компьютер 
+       class="btn btn-primary mb-3" style="width:auto">
+        Добавить новый компьютер
     </a>
+    <div class="">
+        @foreach (var computer in Model)
+        {
 
-    foreach (var computer in Model)
-    {
-        <div class="card-tableNew">
-            <div class="card-header">
+            <div class="col">
+                <div class="d-flex container mt-5">
+                    <img src="https://ae04.alicdn.com/kf/Ha13488eeb8234519a5a9ae4263babea36.jpg" width="300">
+                    <div class="card p-3 bg-white">
+                        <i class="fa fa-apple"></i>
+                        <div class="about-product text-center mt-2">
+
+                            <div class="d-flex">
+                                <h4>@computer.ComputerName</h4>
+                                <form asp-action="Delete" asp-route-id="@computer.ComputerId" method="post">
+                                    <a asp-action="EditComputer" asp-controller="Computer" asp-route-id="@computer.ComputerId" class="btn-sm btn btn-primary mx-2">
+                                        <i class='bx bx-edit-alt bx-xs'></i>
+                                    </a>
+                                    <button type="submit" class="btn-sm btn btn-danger"
+                                            onclick="return confirm('Вы уверены что хотите удалить данную услугу: @computer.')">
+                                        <i class='bx bx-x bx-xs'></i>
+                                    </button>
+                                </form>
+
+                            </div>
+                            <h6 class="mt-0 d-flex">@computer.Halls.HallsName</h6>
+                        </div>
+                        <div class="stats mt-2">
+                            <div class="pr-5 pl-1"><span>@computer.CompanyName</span></div>
+                        </div>
+                        <div class="d-flex justify-content-between total font-weight-bold mt-4"><span>Обслуживание</span><span>@computer.DateOfLastService.ToString("dd.MM.yyyy")</span></div>
+                    </div>
+                </div>
             </div>
 
-            <div class="card-body">
 
-                <table style="display:table">
-                    <tr>
 
-                        <td>
-                            <table style="display:inline-table">
-                                <tr>
-                                    <th style="padding-right:15px">Компьютер: </th>
-                                    <td>@computer.ComputerName</td>
-                                </tr>
-                               
-                               @if (computer.Halls != null && computer.Halls.HallsName != null)
-                                    {
-                                        <tr>
-                                            <th style="padding-right:15px">Номер зала: </th>
-                                            <td>@computer.Halls.HallsName</td>
-                                        </tr>
-                                    }
-                                else
-                                {
-                                    
-                                }
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="card-footer">
-                <form asp-action="Delete" asp-route-id="@computer.ComputerId" method="post">
-
-                    <a asp-action="EditComputer" asp-controller="Computer" asp-route-id="@computer.ComputerId" class="btn btn-primary">Редактирование</a>
-                    <button type="submit" class="btn btn-danger"
-                    onclick="return confirm('Вы уверены что хотите удалить данную услугу: @computer.')">
-                        Удаление
-                    </button>
-                </form>
-            </div>
-        </div>
-    }
+        }
+    </div>
 }
 else
 {
