@@ -3,15 +3,65 @@
     ViewBag.Title = "Компьютеры";
 }
 
-
-@if (Model.Any())
-{
+<div class="main-button">
     <a asp-action="AddComputer"
-       class="btn btn-primary mb-3" style="width:auto">
+       style="width:auto">
         Добавить новый компьютер
     </a>
-    <div class="">
-        @foreach (var computer in Model)
+</div>
+ 
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-content">
+                <div class="most-popular">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="heading-section">
+                                <h4>Компьютеры</h4>
+                            </div>
+                            <div class="row">
+                                @foreach (var computer in Model)
+                                {
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div class="item">
+                                            <img src="https://ae04.alicdn.com/kf/Ha13488eeb8234519a5a9ae4263babea36.jpg" alt="">
+                                            <h4>@computer.ComputerName<br>
+
+                                            
+                                               </h4>
+                                            <div class="content-container">
+                                                <div class="content-short">
+                                                    @(computer.CompanyName?.Substring(0, Math.Min(computer.CompanyName.Length, 20)) ?? "")
+                                                </div>
+                                                <div class="content-full">
+                                                    @(computer.CompanyName ?? "")
+                                                </div>
+                                            </div>
+
+                                            <span>Дата обслуживания: @computer.DateOfLastService.ToString("dd.MM.yyyy")</span>
+                                            <form asp-action="Delete" asp-route-id="@computer.ComputerId" method="post">
+                                                <a asp-action="EditComputer" asp-controller="Computer" asp-route-id="@computer.ComputerId" class="btn-sm btn mx-2">
+                                                    <i class='bx bx-edit-alt bx-xs' style="color:white"></i>
+                                                </a>
+                                                <button type="submit" class="btn-sm btn "
+                                                        onclick="return confirm('Вы уверены что хотите удалить данную услугу: @computer.')">
+                                                    <i class='bi bi-trash3' style="color:white"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+      @*  @foreach (var computer in Model)
         {
 
             <div class="col">
@@ -46,23 +96,5 @@
 
 
 
-        }
-    </div>
-}
-else
-{
-    <div class="card-tableNew">
-        <div class="card-header">
-            Еще не добавлены компьютеры
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">
-                Используйте кнопку ниже, чтобы добавить компьютеры
-            </h5>
-            <a class="btn btn-primary" style="width:auto"
-           asp-action="AddComputer">
-                Добавить добавить компьютеры
-            </a>
-        </div>
-    </div>
-}
+        }*@
+ 

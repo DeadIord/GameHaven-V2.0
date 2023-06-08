@@ -1,4 +1,6 @@
 ﻿@using WebAppMain.Controllers
+@using Microsoft.AspNetCore.Identity;
+@inject UserManager<ApplicationUser> usermanager;
 @model WebAppMain.Models.Visiting
 
 @{
@@ -13,33 +15,44 @@
     <div class="container ">
         <div class="card shadow roundeds">
             <div class="center-wrap m-4">
-                <h4 class="text-lg-center">Добавление услуги</h4>
-                <div class="form-group">
-                    <div asp-validation-summary="All" class="text-danger"></div>
-                    <label asp-for="VisitingId" class="control-label">Посетитель</label>
-                    <input type="text" asp-for="@Model.Visitor.Name" placeholder="Посетитель" class="form-control" />             
-                    <hr />
-                    <div class="accordions">Дополнительная информация</div>
-                    <div class="panel">
-                        <div class="form-group">
-                            <label asp-for="@Model.Visitor.Addres" class="control-label">Адрес</label>
-                            <input type="text" placeholder="Адрес" asp-for="@Model.Visitor.Addres" class="form-control" />
+                <h4 class="text-lg-center">Редактирование поещения            
+                </h4>
+            
+
+                @if (await usermanager.IsInRoleAsync(Model.ApplicationUser, "Гость"))
+                {
+                    <div class="form-group">
+                         </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <label asp-for="VisitingId" class="control-label">Посетитель</label>
+                        <input type="text" asp-for="@Model.Visitor.Name" placeholder="Посетитель" class="form-control" />
+                        <hr />
+                        <div class="accordions">Дополнительная информация</div>
+                        <div class="panel">
+                            <div class="form-group">
+                                <label asp-for="@Model.Visitor.Addres" class="control-label">Адрес</label>
+                                <input type="text" placeholder="Адрес" asp-for="@Model.Visitor.Addres" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="@Model.Visitor.DateOfBirth" class="control-label">Дата рождения</label>
+                                <input type="date" asp-for="@Model.Visitor.DateOfBirth" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="@Model.Visitor.Constant" class="control-label">Постоянный клиент</label>
+                                <select class="form-control" asp-for="@Model.Visitor.Constant">
+                                    <option value="">Выберите тип</option>
+                                    <option>Да</option>
+                                    <option>Нет</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="@Model.Visitor.DateOfBirth" class="control-label">Дата рождения</label>
-                            <input type="date" asp-for="@Model.Visitor.DateOfBirth" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="@Model.Visitor.Constant" class="control-label">Постоянный клиент</label>
-                            <select class="form-control" asp-for="@Model.Visitor.Constant">
-                                <option value="">Выберите тип</option>
-                                <option>Да</option>
-                                <option>Нет</option>
-                            </select>
-                        </div>
+                        <hr />
                     </div>
-                    <hr />
-                </div>
+                }
                 <div class="form-group">
                     <label asp-for="ServicecId" class="control-label">Услуга</label>
                     <select class="form-control" asp-for="ServicecId">

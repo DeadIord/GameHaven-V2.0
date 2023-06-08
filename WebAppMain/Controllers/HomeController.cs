@@ -68,7 +68,22 @@ namespace WebAppMain.Controllers
             return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SendFeedback(string message)
+        {
+          
+            var email = "ali.gasanow9@gmail.com";
+            var user = await _userManager.GetUserAsync(User);
 
+            var username = user.UserName;
+
+     
+            var emailService = new EmailService();
+            await emailService.SendEmailAsync(email, "БЭКЛОГ от пользователей", message  + ". <br> Предложение от пользователя: " + username);
+
+
+            return RedirectToAction("Index");
+        }
 
         [HttpPost]
         public async Task<IActionResult> AddVisitingGuestAsync(Visiting visiting)
@@ -82,11 +97,10 @@ namespace WebAppMain.Controllers
 
                 var isDuplicate = await db.Visiting.AnyAsync(v => v.HallsId == visiting.HallsId
                 && v.ComputerId == visiting.ComputerId
-                && v.Status == "Подтвержден"
                 && v.DateAndTimeOfTheVisit <= visiting.DateAndTimeOfTheVisitEnd
                 && v.DateAndTimeOfTheVisitEnd >= visiting.DateAndTimeOfTheVisit);
 
-                if (!isDuplicate)
+                if (isDuplicate)
                 {
                     ModelState.AddModelError("", "На это время уже есть запись");
                     await selectOptions();

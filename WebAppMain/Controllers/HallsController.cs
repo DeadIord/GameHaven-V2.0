@@ -21,17 +21,7 @@ namespace WebAppMain.Controllers
              .Include(c => c.Computers)
              .ToListAsync();
             return View(halls);
-            //var computers = db.Computers
-            //    .Where(c => c.ComputerName =="Компьютер")
-
-            //    .ToList();
-            //var halls = db.Halls.ToList();
-            //var model = new ComputersAndHallsViewModel
-            //{
-            //    Computers = computers,
-            //    Halls = halls
-            //};
-            //return View(model);
+      
         }
 
         public IActionResult AddHalls()

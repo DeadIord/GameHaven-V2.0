@@ -77,19 +77,7 @@ namespace WebAppMain.Controllers
 
             return View(model);
         }
-        public record SelectOptions
-        {
-            public int value { get; set; }
-            public string text { get; set; }
-        }
-
-        public record SelectOption
-        {
-            public string value { get; set; }
-            public string text { get; set; }
-
-
-        }
+      
         public async Task<IActionResult> AddVisitingAsync()
         {
 
@@ -110,7 +98,6 @@ namespace WebAppMain.Controllers
                 
                 var isDuplicate = await db.Visiting.AnyAsync(v => v.HallsId == visiting.HallsId
                         && v.ComputerId == visiting.ComputerId
-                        && v.Status == "Подтвержден"
                         && v.DateAndTimeOfTheVisit <= visiting.DateAndTimeOfTheVisitEnd
                         && v.DateAndTimeOfTheVisitEnd >= visiting.DateAndTimeOfTheVisit);
 
@@ -138,13 +125,18 @@ namespace WebAppMain.Controllers
                 return View(visiting);
             }
         }
+
         public async Task<IActionResult> EditVisiting(int? id)
         {
             await selectOptions();
 
             if (id != null)
             {
-                Visiting visiting = await db.Visiting.FirstOrDefaultAsync(p => p.VisitingId == id);
+                Visiting visiting = await db.Visiting
+                   
+                    .Include(v => v.Visitor) // Включаем связанные данные посетителя
+                    .FirstOrDefaultAsync(p => p.VisitingId == id);
+
                 if (visiting != null)
                     return View(visiting);
             }
@@ -155,11 +147,12 @@ namespace WebAppMain.Controllers
         {
             try
             {
+
+                visiting.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 visiting.Status = "Подтвержден";
                 visiting.DateAndTimeOfTheVisitEnd = visiting.DateAndTimeOfTheVisit.AddHours(visiting.NumberOfHours);
                 var isDuplicate = await db.Visiting.AnyAsync(v => v.HallsId == visiting.HallsId
-                      && v.ComputerId == visiting.ComputerId
-                      && v.Status == "Подтвержден"
+                      && v.ComputerId == visiting.ComputerId           
                       && v.DateAndTimeOfTheVisit <= visiting.DateAndTimeOfTheVisitEnd
                       && v.DateAndTimeOfTheVisitEnd >= visiting.DateAndTimeOfTheVisit);
 
@@ -257,6 +250,7 @@ namespace WebAppMain.Controllers
             return NotFound();
         }
 
+
         private async Task selectOptions()
         {
             var services = await db.Services
@@ -276,18 +270,34 @@ namespace WebAppMain.Controllers
             .ToListAsync();
             ViewData["Halls"] = halls;
 
-            var roles = await _userManager.GetUsersInRoleAsync("Сотрудник");
-            var employees = roles
-               .Select(s => new SelectOption
-                {
-                    value = s.Id,
-                    text = s.UserName,
-                })
-                .ToList();
+
+            var users = await _userManager.Users.ToListAsync();
+            var sortedUsers = users.OrderBy(u => u.UserName);
+
+            var employees = sortedUsers.Select(u => new SelectOption
+            {
+                value = u.Id,
+                text = u.UserName
+            }).ToList();
+
             ViewData["Employees"] = employees;
-           
+
 
         }
+        public record SelectOptions
+        {
+            public int value { get; set; }
+            public string text { get; set; }
+        }
+
+        public record SelectOption
+        {
+            public string value { get; set; }
+            public string text { get; set; }
+
+
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> ChangeStatus(int orderId, string newStatus)
@@ -299,12 +309,9 @@ namespace WebAppMain.Controllers
             }
            
 
-            // если новый статус не "Подтвержден", то проверка дублей не требуется
-            if (newStatus == "Подтвержден")
-            {
+            
                 var isDuplicate = await db.Visiting.AnyAsync(v => v.HallsId == order.HallsId
                              && v.ComputerId == order.ComputerId
-                             && v.Status == "Подтвержден"
                              && v.DateAndTimeOfTheVisit <= order.DateAndTimeOfTheVisitEnd
                              && v.DateAndTimeOfTheVisitEnd >= order.DateAndTimeOfTheVisit);
                 if (isDuplicate)
@@ -313,9 +320,9 @@ namespace WebAppMain.Controllers
                     await selectOptions();
                     return RedirectToAction("ListVisiting");
                 }
-            }
+            
 
-            // сохраняем новый статус в заказе и в базе данных (если проверка дублей не обнаружила пересечений)
+           
             order.Status = newStatus;
             await db.SaveChangesAsync();
 

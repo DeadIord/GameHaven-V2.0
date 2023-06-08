@@ -1,4 +1,5 @@
-﻿@using WebAppMain.Models;
+﻿@using Microsoft.AspNetCore.Identity;
+@using WebAppMain.Models;
 @inject SignInManager<ApplicationUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
@@ -13,4 +14,7 @@
     }
     <li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Двухфакторная аутентификация</a></li>
     <li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Персональная информация</a></li>
+    <li class="nav-item">
+        <a  class="nav-link "asp-area="Identity" asp-page="/Account/Logout">Выйти </a>
+    </li>
 </ul>

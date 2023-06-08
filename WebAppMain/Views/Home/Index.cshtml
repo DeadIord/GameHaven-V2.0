@@ -14,3 +14,11 @@
     double totalCost = Convert.ToDouble(TempData["TotalCost"]);
     <p>Для оплаты бронирования в размере @totalCost рублей перейдите по ссылке <a href="https://my.qiwi.com/Aly-GEGUYq3GWb" target="_blank">Proceed to Payment</a></p>
 }
+<form method="post" action="/Home/SendFeedback">
+
+    <div>
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" required></textarea>
+    </div>
+    <button type="submit">Send</button>
+</form>

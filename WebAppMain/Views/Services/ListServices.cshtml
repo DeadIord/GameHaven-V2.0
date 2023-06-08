@@ -3,56 +3,46 @@
     ViewBag.Title = "Все Услуги";
 }
 
-
-@if (Model.Any())
-{
+<div class="main-button">
     <a asp-action="AddServices"
-       class="btn btn-primary mb-3" style="width:auto">
+       style="width:auto">
         Добавить новую услугу
     </a>
+</div>
+
+<div class="container">
     <div class="row">
-        @foreach (var services in Model)
-        {
+        <div class="col-lg-12">
+            <div class="most-popular">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="heading-section">
+                            <h4>Услуги</h4>
+                        </div>
+                        <div class="row">
+                            @foreach (var services in Model)
+                            {
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="item">
+                                        <h4>@services.NameOfTheService<br><span class="mb-2">Цена: @services.PricePerService руб.</span></h4>
+                                        <div class="main-border-button">
+                                            <form asp-action="Delete" asp-route-id="@services.ServicesId" method="post">
 
-            <div class="col-sm-4">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <small>Название услуги:</small>
-                        <h5 class="card-title" data-bs-toggle="tooltip" data-bs-placement="top" title="@services.NameOfTheService">
-                            @Html.Raw(Html.Encode(@services.NameOfTheService.Substring(0, Math.Min(35, @services.NameOfTheService.Length))))
-                        </h5>
-                        <small>Цена за услугу:</small>
-                        <p class="card-text">@services.PricePerService Р</p>
-                        
-                        <form asp-action="Delete" asp-route-id="@services.ServicesId" method="post">
+                                                <a asp-action="EditServices" asp-controller="Services" asp-route-id="@services.ServicesId">Редактирование</a>
+                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                        onclick="return confirm('Вы уверены что хотите удалить данную услугу: @services.NameOfTheService')">
+                                                    Удаление
+                                                </button>
+                                            </form>
+                                        </div>
 
-                            <a asp-action="EditServices" asp-controller="Services" asp-route-id="@services.ServicesId" class="btn btn-primary btn-sm">Редактирование</a>
-                            <button type="submit" class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Вы уверены что хотите удалить данную услугу: @services.NameOfTheService')">
-                                Удаление
-                            </button>
-                        </form>
+                                    </div>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
-
-        }
-    </div>
-}
-else
-{
-    <div class="card-tableNew">
-        <div class="card-header">
-            Еще не добавлены услуги
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">
-                Используйте кнопку ниже, чтобы добавить услугу
-            </h5>
-            <a class="btn btn-primary" style="width:auto"
-           asp-action="AddServices">
-                Добавить новую услугу
-            </a>
         </div>
     </div>
-}
+</div>
