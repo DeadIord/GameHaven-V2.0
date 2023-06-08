@@ -463,7 +463,7 @@ Header Style
 
         .header-area .main-nav .nav li:last-child a {
             background-color: #27292a;
-            padding: 8px 10px 8px 20px;
+            padding: 8px 12px;
             border-radius: 23px;
         }
 
@@ -844,7 +844,7 @@ Most Popular Style
 
     .most-popular .item {
         background-color: #27292a;
-        padding: 30px 15px;
+        padding: 15px 15px;
         border-radius: 23px;
         margin-bottom: 30px;
     }
@@ -878,20 +878,6 @@ Most Popular Style
             float: right;
             margin-top: 20px;
         }
-
-            .most-popular .item ul li {
-                text-align: right;
-                color: #fff;
-                font-size: 14px;
-            }
-
-                .most-popular .item ul li:first-child i {
-                    color: yellow;
-                }
-
-                .most-popular .item ul li:last-child i {
-                    color: #ec6090;
-                }
 
     .most-popular .main-button {
         text-align: center;
@@ -1813,4 +1799,10 @@ body {
 
 .content-container:hover .content-full {
     display: block;
+}
+
+input[type="text"], input[type="number"], input[type="date"], textarea[type="text"] {
+    border: none;
+    background: #1f2122;
+    color: white;
 }

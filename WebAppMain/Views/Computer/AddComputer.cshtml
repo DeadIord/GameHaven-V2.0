@@ -7,52 +7,48 @@
 
 <form asp-action="AddComputer" asp-controller="Computer">
     <div class="container ">
-        <div class="card shadow roundeds">
+        <div class="card shadow roundeds mt-5 " style="background: #27292a;">
             <div class="center-wrap m-4">
-                <h4 class="text-lg-center">Добавление компьютера</h4>
+                <h4 class="text-lg-center" style="color: #ec6090;">Добавление компьютера</h4>
                 <div class="form-group">
-                    <label asp-for="ComputerName" class="control-label">Компьютер: </label>
+                    <label asp-for="ComputerName" style="color: #ec6090;" class="control-label">Компьютер: </label>
                     <input type="text" asp-for="ComputerName" placeholder="Компьютер" class="form-control" />
                     <span asp-validation-for="ComputerName" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="CompanyName" class="control-label">Комплектация:</label>
+                    <label asp-for="CompanyName" style="color: #ec6090;" class="control-label">Комплектация:</label>
                     <textarea type="text" cols="40" placeholder="Комплектация" rows="5" asp-for="CompanyName" class="form-control"></textarea>
                     <span asp-validation-for="CompanyName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="DateOfLastService" class="control-label">Дата последнего обслуживания: </label>
+                    <label asp-for="DateOfLastService" style="color: #ec6090;" class="control-label">Дата последнего обслуживания: </label>
                     <input type="date" asp-for="DateOfLastService" placeholder="Компьютер" class="form-control" />
                     <span asp-validation-for="DateOfLastService" class="text-danger"></span>
                 </div>
-                <label asp-for="HallsId" class="control-label">Зал</label>
+                <label asp-for="HallsId" style="color: #ec6090;" class="control-label">Зал</label>
                 <div class="form-group">
-                <select class="form-control" asp-for="HallsId">
+                    <select class="form-control" style="background: #1f2122; border: none; color: white;" asp-for="HallsId">
                     @if (a != null)
                     {
                         @foreach (var item in (List<ComputerController.SelectOptions>)a)
                         {
                             <option value="@item.value">@item.text</option>
                         }
-
                     }
                 </select>
                 <span asp-validation-for="HallsId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Создать</button>
-                    <a asp-action="ListComputer" class="btn btn-primary">Отмена</a>
+                    <button type="submit" style="background-color: #ec6090" class="btn">Создать</button>
+                    <a asp-action="ListComputer" style="background-color: #ec6090" class="btn">Отмена</a>
                 </div>
             </div>
         </div>
     </div>
-
-
-
-
-    
 </form>
+
+
 @section Scripts {
             <partial name="_ValidationScriptsPartial" />
 }

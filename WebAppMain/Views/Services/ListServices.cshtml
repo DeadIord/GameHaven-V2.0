@@ -10,35 +10,36 @@
     </a>
 </div>
 
+
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <div class="most-popular">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="heading-section">
-                            <h4>Услуги</h4>
-                        </div>
-                        <div class="row">
-                            @foreach (var services in Model)
-                            {
-                                <div class="col-lg-3 col-sm-6">
-                                    <div class="item">
-                                        <h4>@services.NameOfTheService<br><span class="mb-2">Цена: @services.PricePerService руб.</span></h4>
-                                        <div class="main-border-button">
-                                            <form asp-action="Delete" asp-route-id="@services.ServicesId" method="post">
-
-                                                <a asp-action="EditServices" asp-controller="Services" asp-route-id="@services.ServicesId">Редактирование</a>
-                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                        onclick="return confirm('Вы уверены что хотите удалить данную услугу: @services.NameOfTheService')">
-                                                    Удаление
-                                                </button>
-                                            </form>
+            <div class="page-content">
+                <div class="most-popular">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="heading-section">
+                                <h4>Услуги</h4>
+                            </div>
+                            <div class="row">
+                                @foreach (var services in Model)
+                                {
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div class="item">
+                                            <h4>@services.NameOfTheService<br><span class="mb-2">Цена: @services.PricePerService руб.</span></h4>
+                                                <form asp-action="Delete" asp-route-id="@services.ServicesId" method="post">
+                                                    <a asp-action="EditServices" asp-controller="Services" asp-route-id="@services.ServicesId" class="btn-sm btn mx-2">
+                                                        <i class="mt-1 bx bx-edit-alt bx-xs" style="color:white"></i>
+                                                    </a>
+                                                <button type="submit" class="btn-sm btn"
+                                                            onclick="return confirm('Вы уверены что хотите удалить данную услугу: @services.NameOfTheService')">
+                                                        <i class='bi bi-trash3' style="color:white"></i>
+                                                    </button>
+                                                </form>
                                         </div>
-
                                     </div>
-                                </div>
-                            }
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
