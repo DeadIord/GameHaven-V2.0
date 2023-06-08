@@ -6,40 +6,39 @@
     ViewBag.Title = "Все Посещения";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h1>Все Посещения</h1>
 
 
-<form asp-controller="Visiting" asp-action="ListVisiting">
-    <div class="form-group">
-        <label>Фильтрация статуса записи</label>
-        <select asp-for="constantFilter" class="form-control">
-            <option value="">All</option>
+<style>
+    .filter-search-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
 
-            <option value="Подтвержден">Подтвержден</option>
-            <option value="Не подтвержден">Не подтвержден</option>
+    .filter-container, .search-container {
+        flex: 1;
+    }
 
-        </select>
-    </div>
-    <button type="submit" class="btn btn-primary">фильтр</button>
-    <a asp-controller="Visiting" asp-action="ListVisiting">Очистить фильтр</a>
-</form>
+        .filter-container .form-group {
+            margin-bottom: 0;
+        }
 
-<div class="col-md-3 ml-auto">
-    <form asp-controller="Visiting" asp-action="ListVisiting">
-        <div class="form-group">
-            <label></label>
-            <input type="text" asp-for="SearchString" class="form-control" />
-        </div>
-        <button type="submit" class="btn btn-primary">Поиск</button>
-        <a asp-controller="Visiting" asp-action="ListVisiting">Очистить поиск</a>
-    </form>
-</div>
+        .search-container .form-group {
+            margin-bottom: 0;
+        }
+
+        .filter-container .btn {
+            margin-top: 0;
+        }
+
+</style>
 
 <form method="get">
-    <div class="form-group">
-        <button asp-action="AddVisiting" class="btn btn-primary">
+    <div class="main-button">
+        <a asp-action="AddVisiting"
+           style="width:auto">
             Добавить новое посещение
-        </button>
+        </a>
     </div>
     @if (TempData.ContainsKey("ErrorMessage"))
     {
@@ -48,6 +47,47 @@
 </form>
 
 
+
+<div class="page-content p-5">
+    <div class="most-popular mt-0">
+        <div class="filter-search-container row align-items-center">
+            <div class="col-md-6 filter-container">
+                <form id="filterForm" asp-controller="Visiting" asp-action="ListVisiting" method="get" class="d-flex align-items-center">
+                    <div class="form-group mb-0 w-100 me-2">
+                        <select style="background: #27292a; border: none; color: white;" name="constantFilter" class="form-control" id="constantFilter">
+                            <option value="">All</option>
+                            <option value="Подтвержден">Подтвержден</option>
+                            <option value="Не подтвержден">Не подтвержден</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-sm btn" style="color:white">
+                        <i class="bi bi-funnel-fill"></i>
+                    </button>
+                    <a href="#" id="clearFilter" class="btn-sm btn" style="color:white">
+                        <i class="bi bi-x-square"></i>
+                    </a>
+                </form>
+            </div>
+            <div class="col-md-6 search-container">
+                <form id="searchForm" asp-controller="Visiting" asp-action="ListVisiting" method="get" class="d-flex align-items-center">
+                    <div class="form-group w-100 mb-0 me-2">
+                        <input style="background-color: #27292a;" type="text" name="searchString" class="form-control" placeholder="Поиск" id="searchString" />
+                    </div>
+                    <button type="submit" class="btn-sm btn" style="color:white">
+                        <i class="bi bi-search"></i>
+                    </button>
+                    <a href="#" id="clearSearch" class="btn-sm btn" style="color:white">
+                        <i class="bi bi-x-square"></i>
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="page-content p-5">
+    <div class="most-popular mt-0">
 <div class="card-tableNew">
     <div class="card-header">
     </div>
@@ -75,7 +115,7 @@
                         <div>
                             <span class="card-text">Дата посещения: @visiting.DateAndTimeOfTheVisit.ToString("g")</span>
                         </div>
-                      
+
                         <div>
                             <span class="card-text">Количество часов: @visiting.NumberOfHours</span>
                         </div>
@@ -140,6 +180,9 @@
             </div>
         }
     </div>
+        </div>
+    </div>
+
 
 
     <div class="row">
@@ -178,6 +221,7 @@
         </div>
     </div>
 </div>
+
 
 <script>
     // Функция для обновления таймера и прогресс-бара
@@ -225,4 +269,6 @@
         updateTimersAndProgressBars();
         setInterval(updateTimersAndProgressBars, 1000);
     });
-    </script>
+
+
+</script>
