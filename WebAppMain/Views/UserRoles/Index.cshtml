@@ -6,9 +6,9 @@
 }
 <h1>Роли пользователей</h1>
 <div class="card-tableNew">
-    <table class="table table-striped">
+    <table class="table table-borderless text-white">
         <thead>
-            <tr>
+            <tr style="color:#e75e8d">
                 <th>Имя</th>
                 <th>Фамилия</th>
                 <th>Email</th>
@@ -19,17 +19,52 @@
         <tbody>
             @foreach (var user in Model)
             {
-            <tr>
-                <td>@user.FirstName</td>
-                <td>@user.LastName</td>
-                <td>@user.Email</td>
-                <td>@string.Join(" , ", user.Roles.ToList())</td>
+            <tr  >
+                    <td style="color:white">@user.FirstName</td>
+                    <td style="color:white">@user.LastName</td>
+                    <td style="color:white">@user.Email</td>
+                    <td style="color:white">@string.Join(" , ", user.Roles.ToList())</td>
 
                 <td>
-                        <a class="btn btn-primary" asp-controller="UserRoles" asp-action="Manage" asp-route-userId="@user.UserId">Управление ролями</a>
+                        <a class="btn btn-primary" style="--bs-btn-border-color: #ec6090;background-color:#ec6090" asp-controller="UserRoles" asp-action="Manage" asp-route-userId="@user.UserId">Управление ролями</a>
                 </td>
             </tr>
             }
         </tbody>
     </table>
 </div>
+@*<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-content">
+                <div class="gaming-library">
+                    <div class="col-lg-12">
+                        <div class="heading-section">
+                            <h4>Роли пользователей</h4>
+                        </div>
+
+                        @foreach (var user in Model)
+                        {
+                            <div class="item">
+                                <ul>
+
+                                    <li><h4>@user.FirstName</h4></li>
+                                    <li><h4>@user.LastName</h4></li>
+                                    <li><h4>@user.LastName</h4></li>
+                                    <li><h4>@user.Email</h4></li>
+                                    <li><div class="main-border-button border-no-active"><a asp-controller="UserRoles" asp-action="Manage" asp-route-userId="@user.UserId">Управление ролями</a></div></li>
+                                </ul>
+                            </div>
+                        }
+
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="main-button">
+                            <a href="profile.html">View Your Library</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@

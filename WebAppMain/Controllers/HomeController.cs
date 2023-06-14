@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -10,6 +11,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using WebAppMain.Data;
 using WebAppMain.Models;
 using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
@@ -67,23 +69,16 @@ namespace WebAppMain.Controllers
 
             return View();
         }
-
         [HttpPost]
-        public async Task<IActionResult> SendFeedback(string message)
+        public async Task<IActionResult> SendFeedback(string message, string email, string name, string subject)
         {
-          
-            var email = "ali.gasanow9@gmail.com";
-            var user = await _userManager.GetUserAsync(User);
-
-            var username = user.UserName;
-
-     
+            var emails = "deadlord616@gmail.com";
             var emailService = new EmailService();
-            await emailService.SendEmailAsync(email, "БЭКЛОГ от пользователей", message  + ". <br> Предложение от пользователя: " + username);
-
+            await emailService.SendEmailAsync(emails, subject, message + "<br><br>Пользователь: <br>"  + name + " .<br> Email: "+ email);
 
             return RedirectToAction("Index");
         }
+ 
 
         [HttpPost]
         public async Task<IActionResult> AddVisitingGuestAsync(Visiting visiting)
@@ -108,12 +103,14 @@ namespace WebAppMain.Controllers
                 }
                 else
                 {
-                    db.Visiting.Add(visiting);
-                    await db.SaveChangesAsync();
-
                     var service = await db.Services.FindAsync(visiting.ServicecId);
                     double totalCost = service.PricePerService * visiting.NumberOfHours;
                     TempData["TotalCost"] = totalCost.ToString();
+                    visiting.TotalCost = totalCost;
+                    db.Visiting.Add(visiting);
+                    await db.SaveChangesAsync();
+
+                  
 
                     TempData["SuccessMessage"] = "Бронирование успешно создано";
                     return RedirectToAction("Index");

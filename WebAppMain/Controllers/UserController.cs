@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAppMain.Data;
 using WebAppMain.Models;
 
 
@@ -12,23 +14,25 @@ namespace WebAppMain.Controllers
 {
     public class UserController : Controller
     {
+        private ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
        
 
-        public UserController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public UserController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
+            db = context;
             _roleManager = roleManager;
             _userManager = userManager;
         }
 
 
         [HttpGet]
-        public async Task<IActionResult> ListUsers(string roleName)
+        public async Task<IActionResult> ListUsers(string roleName, string searchString)
         {
             // get all users
             var users = _userManager.Users.ToList();
-
+            
             if (!string.IsNullOrEmpty(roleName))
             {
                 // get users in the specified role
@@ -36,6 +40,11 @@ namespace WebAppMain.Controllers
                 users = users.Intersect(usersInRole).ToList();
             }
 
+          
+
+
+            
+           
             // pass the filtered list of users to the view
             return View(users);
         }
@@ -57,6 +66,7 @@ namespace WebAppMain.Controllers
                 user.Email = model.Email;
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
+                user.Patronymic = model.Patronymic;
 
                 var result = await _userManager.UpdateAsync(user);
 

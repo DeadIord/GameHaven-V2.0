@@ -101,3 +101,23 @@ html {
 .roundeds {
     border-radius: 1.25rem !important;
 }
+.text-pink {
+    color: #e75e8d;
+}
+.text-white{
+    color: white;
+}
+.input-black {
+    border: none;
+    background: #1f2122;
+    color: white;
+}
+.new-button {
+    --bs-btn-border-color: #ec6090;
+    background-color: #ec6090;
+}
+
+input[type="file"] {
+    background: #1f2122;
+    color: white;
+}

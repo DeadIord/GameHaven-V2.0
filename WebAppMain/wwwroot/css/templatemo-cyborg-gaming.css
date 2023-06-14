@@ -1,10 +1,3 @@
-/*
-
-TemplateMo 579 Cyborg Gaming
-
-https://templatemo.com/tm-579-cyborg-gaming
-
-*/
 
 /* ---------------------------------------------
 Table of contents
@@ -182,12 +175,14 @@ p {
     color: #ec6090;
     background-color: transparent;
     border: 1px solid #ec6090;
-    padding: 12px 30px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 5px;
+    padding-right: 0px;
     display: inline-block;
     border-radius: 25px;
     font-weight: 400;
     text-transform: capitalize;
-    letter-spacing: 0.5px;
     transition: all .3s;
     position: relative;
     overflow: hidden;
@@ -402,8 +397,10 @@ Header Style
     }
 
 .header-area .main-nav .logo {
+    display: flex;
+    align-items: center;
     border-right: 1px solid #27292a;
-    flex-basis: 25%;
+    flex-basis: 18%;
     margin-right: 5%;
     -webkit-transition: all 0.3s ease 0s;
     -moz-transition: all 0.3s ease 0s;
@@ -412,7 +409,7 @@ Header Style
 }
 
     .header-area .main-nav .logo img {
-        width: 191px;
+        width: 220px;
     }
 
 .background-header .main-nav .logo {
@@ -803,7 +800,7 @@ Banner Style
 */
 
 .main-banner {
-    background-image: url(../images/banner-bg.jpg);
+    background-image: url(../img/banner-bg.jpg);
     background-position: center center;
     background-size: cover;
     min-height: 380px;
@@ -835,8 +832,9 @@ Most Popular Style
 --------------------------------------------- 
 */
 
+
 .most-popular {
-    margin-top: 20px;
+    margin-top: 60px;
     padding: 30px;
     background-color: #1f2122;
     border-radius: 23px;
@@ -844,7 +842,7 @@ Most Popular Style
 
     .most-popular .item {
         background-color: #27292a;
-        padding: 15px 15px;
+        padding: 30px 15px;
         border-radius: 23px;
         margin-bottom: 30px;
     }
@@ -869,7 +867,7 @@ Most Popular Style
 
         .most-popular .item span {
             color: #666;
-            display: block;
+     
             margin-top: 7px;
             font-weight: 400;
         }
@@ -879,15 +877,30 @@ Most Popular Style
             margin-top: 20px;
         }
 
+            .most-popular .item ul li {
+                text-align: right;
+                color: #fff;
+                font-size: 14px;
+            }
+
+                .most-popular .item ul li:first-child i {
+                    color: yellow;
+                }
+
+                .most-popular .item ul li:last-child i {
+                    color: #ec6090;
+                }
+
     .most-popular .main-button {
         text-align: center;
         margin-bottom: -53px;
     }
 
-/* 
+
+
 ---------------------------------------------
 Gaming Library Style
---------------------------------------------- 
+---------------------------------------------
 */
 
 .gaming-library {
@@ -897,15 +910,15 @@ Gaming Library Style
     border-radius: 23px;
 }
 
-    .gaming-library .item {
-        border-bottom: 1px solid #27292a;
-        margin-bottom: 20px;
-        padding-bottom: 20px;
-    }
+.gaming-library .item {
+    border-bottom: 1px solid #27292a;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
 
-    .gaming-library .last-item {
-        margin-bottom: 30px;
-    }
+.gaming-library .last-item {
+    margin-bottom: 30px;
+}
 
 .profile-library .last-item {
     border-bottom: none;
@@ -949,6 +962,8 @@ Gaming Library Style
     text-align: center;
     margin-bottom: -53px;
 }
+
+/* 
 
 /* 
 ---------------------------------------------
@@ -1294,7 +1309,7 @@ Featured Banner Style
     max-height: 305px;
     overflow: hidden;
     border-radius: 23px;
-    ;
+   
 }
 
     .feature-banner .thumb a {
@@ -1312,102 +1327,6 @@ Featured Banner Style
         color: #ec6090;
     }
 
-/* 
----------------------------------------------
-Game Details Style
---------------------------------------------- 
-*/
-
-.game-details h2 {
-    font-size: 45px;
-    text-transform: uppercase;
-    text-align: center;
-    margin: 60px 0px;
-}
-
-.game-details .content {
-    border-radius: 23px;
-    padding: 30px;
-    background-color: #1f2122;
-}
-
-    .game-details .content .left-info {
-        background-color: #27292a;
-        border-radius: 23px;
-        padding: 30px;
-        margin-bottom: 30px;
-    }
-
-        .game-details .content .left-info .left {
-            float: left;
-        }
-
-        .game-details .content .left-info h4 {
-            font-size: 15px;
-            display: block;
-        }
-
-        .game-details .content .left-info span {
-            color: #666;
-            display: block;
-            margin-top: 7px;
-            font-weight: 400;
-        }
-
-        .game-details .content .left-info ul {
-            text-align: right;
-        }
-
-            .game-details .content .left-info ul li {
-                color: #fff;
-                font-size: 14px;
-                margin-bottom: 3px;
-            }
-
-                .game-details .content .left-info ul li:first-child i {
-                    color: yellow;
-                }
-
-                .game-details .content .left-info ul li:last-child i {
-                    color: #ec6090;
-                }
-
-    .game-details .content .right-info {
-        background-color: #27292a;
-        border-radius: 23px;
-        padding: 30px;
-        margin-bottom: 30px;
-    }
-
-        .game-details .content .right-info ul li {
-            display: inline-block;
-            width: 23%;
-            text-align: center;
-            font-size: 14px;
-            color: #fff;
-        }
-
-            .game-details .content .right-info ul li i {
-                display: block;
-                margin-bottom: 12px;
-            }
-
-            .game-details .content .right-info ul li:first-child i {
-                color: yellow;
-            }
-
-            .game-details .content .right-info ul li i {
-                color: #ec6090;
-            }
-
-.game-details .main-border-button {
-    margin-top: 35px;
-}
-
-    .game-details .main-border-button a {
-        text-align: center;
-        width: 100%;
-    }
 
 /* 
 ---------------------------------------------
@@ -1532,121 +1451,6 @@ Top Streamers Style
                 padding: 8px 20px;
             }
 
-/* 
----------------------------------------------
-Profile Style
---------------------------------------------- 
-*/
-
-.main-profile {
-    border-radius: 23px;
-    padding: 30px;
-    background-color: #1f2122;
-}
-
-    .main-profile .main-info span {
-        font-size: 14px;
-        color: #fff;
-        background-color: #e75e8d;
-        padding: 8px 20px;
-        display: inline-block;
-        border-radius: 25px;
-        font-weight: 400;
-        text-transform: capitalize;
-        letter-spacing: 0.5px;
-        margin-bottom: 15px;
-    }
-
-    .main-profile .main-info h4 {
-        margin-bottom: 20px;
-    }
-
-    .main-profile .main-info .main-border-button {
-        margin-top: 25px;
-    }
-
-    .main-profile ul {
-        border-radius: 23px;
-        padding: 30px;
-        background-color: #27292a;
-    }
-
-        .main-profile ul li {
-            width: 100%;
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #666;
-        }
-
-            .main-profile ul li span {
-                float: right;
-                font-weight: 500;
-                color: #ec6090;
-            }
-
-            .main-profile ul li:last-child {
-                border-bottom: none;
-                padding-bottom: 0;
-                margin-bottom: 0;
-            }
-
-.clips {
-    margin-top: 30px;
-    border-top: 2px solid #27292a;
-}
-
-    .clips .heading-section {
-        margin-top: 30px;
-    }
-
-    .clips .item {
-        border-radius: 23px;
-        padding: 30px 15px;
-        background-color: #27292a;
-        margin-bottom: 30px;
-    }
-
-        .clips .item .thumb {
-            position: relative;
-            margin-bottom: 15px;
-        }
-
-            .clips .item .thumb a {
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                transform: translate(-23px, -23px);
-                width: 46px;
-                height: 46px;
-                background-color: #fff;
-                border-radius: 50%;
-                display: inline-block;
-                text-align: center;
-                line-height: 46px;
-                color: #ec6090;
-            }
-
-        .clips .item h4 {
-            font-size: 15px;
-            display: inline-block;
-        }
-
-        .clips .item span i {
-            color: #ec6090;
-        }
-
-        .clips .item span {
-            float: right;
-            color: #fff;
-            font-size: 14px;
-        }
-
-    .clips .main-button {
-        margin-top: 10px;
-        text-align: center;
-    }
 
 /* 
 ---------------------------------------------
@@ -1801,7 +1605,7 @@ body {
     display: block;
 }
 
-input[type="text"], input[type="number"], input[type="date"], textarea[type="text"] {
+input[type="text"], input[type="datetime-local"], input[type="number"], input[type="date"], textarea[type="text"] {
     border: none;
     background: #1f2122;
     color: white;

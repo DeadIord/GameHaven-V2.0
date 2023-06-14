@@ -16,8 +16,8 @@
                 <div class="form-check m-1">
                     <input type="hidden" asp-for="@Model[i].RoleId" />
                     <input type="hidden" asp-for="@Model[i].RoleName" />
-                    <input asp-for="@Model[i].Selected" class="form-check-input" />
-                    <label class="form-check-label" asp-for="@Model[i].Selected">
+                    <input asp-for="@Model[i].Selected" class="form-check-input " style="border-color: #ec6090;background-color: #ec6090;" />
+                    <label class="text-white form-check-label" asp-for="@Model[i].Selected">
                         @Model[i].RoleName
                     </label>
                 </div>
@@ -26,9 +26,9 @@
         </div>
         <div class="card-footer">
             <input type="submit" value="Обновить" class="btn btn-primary"
-                   style="width:auto" />
+                   style="--bs-btn-border-color: #ec6090; background-color:#ec6090;width:auto" />
             <a asp-action="" asp-route-id="@ViewBag.userId"
-               class="btn btn-primary" style="width:auto">Отмена</a>
+               class="btn btn-primary" style="--bs-btn-border-color: #ec6090; background-color:#ec6090;width:auto">Отмена</a>
         </div>
     </div>
 </form>

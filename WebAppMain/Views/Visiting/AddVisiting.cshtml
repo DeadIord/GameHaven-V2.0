@@ -10,92 +10,105 @@
     var h = ViewData["Halls"];
     var e = ViewData["Employees"];
 }
+<style>
+    .accordions {
+        cursor: pointer;
+    }
+
+    .panel {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+    }
+
+</style>
+
 
 <form asp-action="AddVisiting" asp-controller="Visiting">
     <div class="container ">
-        <div class="card shadow roundeds">
+        <div class="card shadow roundeds mt-5 " style="background: #27292a;">
             <div class="center-wrap m-4">
-                <h4 class="text-lg-center">Добавление услуги</h4>
+                <h4 class="text-lg-center" style="color: #ec6090;">Добавление посещения</h4>
                 <div class="form-group">
                     <div asp-validation-summary="All" class="text-danger"></div>
-                    <label asp-for="VisitingId" class="control-label">Посетитель</label>
+                    <label style="color: #ec6090;" asp-for="VisitingId" class="control-label">Посетитель</label>
                     <input type="text" asp-for="@Model.Visitor.Name" placeholder="Посетитель" class="form-control" />
                     <span asp-validation-for="@Model.Visitor.Name" class="text-danger"></span>
-                    <hr/>
-                    <div class="accordions">Дополнительная информация</div>
+                    <hr />
+                    <div style="color: #ec6090;" class="accordions mb-3">Дополнительная информация</div>
                     <div class="panel">
                         <div class="form-group">
-                            <label asp-for="@Model.Visitor.Addres" class="control-label">Адрес</label>
+                            <label style="color: #ec6090;" asp-for="@Model.Visitor.Addres" class="control-label">Адрес</label>
                             <input type="text" placeholder="Адрес" asp-for="@Model.Visitor.Addres" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label asp-for="@Model.Visitor.DateOfBirth" class="control-label">Дата рождения</label>
+                            <label style="color: #ec6090;" asp-for="@Model.Visitor.DateOfBirth" class="control-label">Дата рождения</label>
                             <input type="date" asp-for="@Model.Visitor.DateOfBirth" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label asp-for="@Model.Visitor.Constant" class="control-label">Постоянный клиент</label>
-                            <select class="form-control" asp-for="@Model.Visitor.Constant">
+                            <label style="color: #ec6090;" asp-for="@Model.Visitor.Constant" class="control-label">Постоянный клиент</label>
+                            <select class="form-control" style="background: #1f2122; border: none; color: white;" asp-for="@Model.Visitor.Constant">
                                 <option value="">Выберите тип</option>
                                 <option>Да</option>
                                 <option>Нет</option>
                             </select>
                         </div>
                     </div>
-                    <hr />
-                </div>
-                <div class="form-group">
-                    <label asp-for="ServicecId" class="control-label">Услуга</label>
-                    <select class="form-control" asp-for="ServicecId">
-                        @if (z != null)
-                            @foreach (var item in (List<VisitingController.SelectOptions>)z)
+                    <div class="form-group">
+                        <label style="color: #ec6090;" asp-for="ServicecId" class="control-label">Услуга</label>
+                        <select class="form-control" style="background: #1f2122; border: none; color: white;" asp-for="ServicecId">
+                            @if (z != null)
+                                @foreach (var item in (List<VisitingController.SelectOptions>)z)
+                                {
+                                    <option value="@item.value">@item.text</option>
+                                }
+                        </select>
+                        <span asp-validation-for="ServicecId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label style="color: #ec6090;" asp-for="DateAndTimeOfTheVisit" class="control-label">Дата и время посещения</label>
+                        <input type="datetime-local" id="date-in" asp-for="DateAndTimeOfTheVisit" class="form-control" />
+                        <span asp-validation-for="DateAndTimeOfTheVisit" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label style="color: #ec6090;" asp-for="NumberOfHours" class="control-label">Количество часов</label>
+                        <input type="number" placeholder="Количество часов" asp-for="NumberOfHours" class="form-control" />
+                        <span asp-validation-for="NumberOfHours" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label style="color: #ec6090;" asp-for="HallsId" class="control-label">Зал</label>
+                        <select class="form-control" style="background: #1f2122; border: none; color: white;" asp-for="HallsId" id="halls-dropdown">
+                            <option value="">Выберите зал</option>
+                            @if (h != null)
                             {
-                                <option value="@item.value">@item.text</option>
+                                @foreach (var item in (List<VisitingController.SelectOptions>)h)
+                                {
+                                    <option value="@item.value">@item.text</option>
+                                }
                             }
-                    </select>
-                    <span asp-validation-for="ServicecId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DateAndTimeOfTheVisit" class="control-label">Дата и время посещения</label>
-                    <input type="datetime-local" id="date-in" asp-for="DateAndTimeOfTheVisit" class="form-control" />
-                    <span asp-validation-for="DateAndTimeOfTheVisit" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="NumberOfHours" class="control-label">Количество часов</label>
-                    <input type="number" placeholder="Количество часов" asp-for="NumberOfHours" class="form-control" />
-                    <span asp-validation-for="NumberOfHours" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="HallsId" class="control-label">Зал</label>
-                    <select class="form-control" asp-for="HallsId" id="halls-dropdown">
-                        <option value="">Выберите зал</option>
-                        @if (h != null)
-                        {
-                            @foreach (var item in (List<VisitingController.SelectOptions>)h)
-                            {
-                                <option value="@item.value">@item.text</option>
-                            }
-                        }
-                    </select>
-                    <span asp-validation-for="HallsId" class="text-danger"></span>
-                </div>
-                  <div class="form-group">
-                    <label asp-for="ComputerId" class="control-label">Компьютер</label>
-                    <select class="form-control" asp-for="ComputerId" id="computers-dropdown">
-                        <option value="">Выберите компьютер</option>
-                    </select>
-                </div>
-               
-                <div  id="computer-status-container" class="form-group">
-                    
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Создать</button>
-                    <a asp-action="ListServices" class="btn btn-link">Отмена</a>
+                        </select>
+                        <span asp-validation-for="HallsId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label style="color: #ec6090;" asp-for="ComputerId" class="control-label">Компьютер</label>
+                        <select class="form-control" style="background: #1f2122; border: none; color: white;" asp-for="ComputerId" id="computers-dropdown">
+                            <option value="">Выберите компьютер</option>
+                        </select>
+                    </div>
+
+                    <div id="computer-status-container" class="form-group">
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" style="background-color: #ec6090" class="btn">Создать</button>
+                        <a asp-action="ListVisiting" style="background-color: #ec6090" class="btn">Отмена</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
- 
+
+
 
 </form>
 

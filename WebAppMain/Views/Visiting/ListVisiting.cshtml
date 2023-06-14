@@ -71,7 +71,7 @@
             <div class="col-md-6 search-container">
                 <form id="searchForm" asp-controller="Visiting" asp-action="ListVisiting" method="get" class="d-flex align-items-center">
                     <div class="form-group w-100 mb-0 me-2">
-                        <input style="background-color: #27292a;" type="text" name="searchString" class="form-control" placeholder="Поиск" id="searchString" />
+                        <input style="background-color: #27292a; " type="date" name="searchString" class="form-control" placeholder="Поиск" id="searchString" />
                     </div>
                     <button type="submit" class="btn-sm btn" style="color:white">
                         <i class="bi bi-search"></i>
@@ -88,98 +88,87 @@
 
 <div class="page-content p-5">
     <div class="most-popular mt-0">
-<div class="card-tableNew">
-    <div class="card-header">
-    </div>
-    <div class="row">
-        @foreach (var visiting in Model.Visiting)
-        {
-            <div class="col-md-4 col-sm-6 col-12 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Посетитель: </h5>
-                        <div>
-                            <span class="card-text">
-
-                                @if (await UserManager.IsInRoleAsync(visiting.ApplicationUser, "Гость"))
-                                {
-                                    @visiting.ApplicationUser.UserName
-                                }
-                                else
-                                {
-                                    @visiting.Visitor.Name
-                                }
-                            </span>
-                        </div>
-                        <span class="card-text">Услуга: @visiting.Services.NameOfTheService</span>
-                        <div>
-                            <span class="card-text">Дата посещения: @visiting.DateAndTimeOfTheVisit.ToString("g")</span>
-                        </div>
-
-                        <div>
-                            <span class="card-text">Количество часов: @visiting.NumberOfHours</span>
-                        </div>
-                        <div>
-                            <span class="card-text">Стоимость: @visiting.TotalCost рублей</span>
-                        </div>
-                        <div>
-                            <span class="card-text">@visiting.Halls.HallsName</span>
-                        </div>
-                        <div>
-                            <span class="card-text"> @visiting.Halls.Computers.FirstOrDefault(c => c.ComputerId == visiting.ComputerId)?.ComputerName</span>
-                        </div>
-
-
-                        @if (await UserManager.IsInRoleAsync(visiting.ApplicationUser, "Гость"))
-                        {
-                            <div>
-                            </div>
-                        }
-                        else
-                        {
-                            <div>
-                                <span class="card-text">Сотрудник: @visiting.ApplicationUser.UserName</span>
-                            </div>
-
-
-                        }
-
-                        <form method="post" action="@Url.Action("ChangeStatus", "Visiting")">
-                            <div class="form-row" style="margin-top: 20px;">
-                                <div class="col-md-6 mb-3">
-                                    <input type="hidden" name="orderId" value="@visiting.VisitingId" />
-                                    <select name="newStatus" class="custom-select">
-                                        <option value="Не подтвержден" selected="@(visiting.Status == "Не подтвержден")">Не подтвержден</option>
-                                        <option value="Подтвержден" selected="@(visiting.Status == "Подтвержден")">Подтвержден</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                                </div>
-                            </div>
-                        </form>
-                        <div class="progress">
-                            <div class="progress-bar timer-progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <div>
-                            <span class="card-text">Осталось времени: <span class="timer" data-start-date="@visiting.DateAndTimeOfTheVisit.ToString("yyyy-MM-dd HH:mm:ss")" data-end-date="@visiting.DateAndTimeOfTheVisitEnd.ToString("yyyy-MM-dd HH:mm:ss")" data-timer-id="timer1"></span></span>
-                        </div>
-
-
-                    </div>
-                    <div class="card-footer">
-                        <form asp-action="Delete" asp-route-id="@visiting.VisitingId" method="post">
-                            <a asp-action="EditVisiting" asp-controller="Visiting" asp-route-id="@visiting.VisitingId" class="btn btn-primary">Редактирование</a>
-                            <button type="submit" class="btn btn-danger"
-                                    onclick="return confirm('Вы уверены что хотите удалить информацию о посещении?')">
-                                Удаление
-                            </button>
-                        </form>
-                    </div>
-                </div>
+        <div class="card-tableNew">
+            <div class="card-header">
             </div>
-        }
-    </div>
+            <div class="row">
+
+                @foreach (var visiting in Model.Visiting)
+                {
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="item">
+                                <h5 class="card-title">Посетитель: </h5>
+                                <div>
+                                    <span class="text-white card-text">
+
+                                        @if (await UserManager.IsInRoleAsync(visiting.ApplicationUser, "Гость"))
+                                        {
+                                            @visiting.ApplicationUser.UserName
+                                        }
+                                        else
+                                        {
+                                            @visiting.Visitor.Name
+                                        }
+                                    </span>
+                                </div>
+                                <span class="text-white card-text">Услуга: @visiting.Services.NameOfTheService</span>
+                                <div>
+                                    <span class="text-white card-text">Дата посещения: @visiting.DateAndTimeOfTheVisit.ToString("g")</span>
+                                </div>
+
+                                <div>
+                                    <span class="text-white card-text">Количество часов: @visiting.NumberOfHours</span>
+                                </div>
+                                <div>
+                                    <span class="text-white card-text">Стоимость: @visiting.TotalCost рублей</span>
+                                </div>
+                                <div>
+                                    <span class="text-white card-text">@visiting.Halls.HallsName</span>
+                                </div>
+                                <div>
+                                <span class="text-white card-text"> @visiting.Halls.Computers.FirstOrDefault(c => c.ComputerId == visiting.ComputerId)?.ComputerName</span>
+                                </div>
+
+                                <form method="post" action="@Url.Action("ChangeStatus", "Visiting")">
+                                    <div class="form-row" style="margin-top: 20px;">
+                                        <div class="col-md-6 mb-3">
+                                            <input type="hidden" name="orderId" value="@visiting.VisitingId" />
+                                        <select name="newStatus" style="background: #1f2122; border: none; color: white;" class="custom-select">
+                                                <option value="Не подтвержден" selected="@(visiting.Status == "Не подтвержден")">Не подтвержден</option>
+                                                <option value="Подтвержден" selected="@(visiting.Status == "Подтвержден")">Подтвержден</option>
+                                            <option value="Принудительно завершен" selected="@(visiting.Status == "Принудительно завершен")">Принудительно завершен</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                        <button type="submit" class="btn-sm btn mx-2">
+                                            <i class="bi bi-pencil-square" style="color:white"></i>
+
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="progress">
+                                <div class="progress-bar timer-progress-bar" role="progressbar" style="width: 0%; --bs-progress-bar-bg: #e75e8d;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div>
+                                <span class="text-white">Осталось времени: <span class="timer" data-start-date="@visiting.DateAndTimeOfTheVisit.ToString("yyyy-MM-dd HH:mm:ss")" data-end-date="@visiting.DateAndTimeOfTheVisitEnd.ToString("yyyy-MM-dd HH:mm:ss")" data-timer-id="timer1"></span></span>
+                                </div>
+
+                            <div class="card-footer">
+                                <form asp-action="Delete" asp-route-id="@visiting.VisitingId" method="post">
+                                  
+                                    <button type="submit" class="btn-sm btn"
+                                            onclick="return confirm('Вы уверены что хотите удалить информацию о посещении?')">
+                                        <i class='bi bi-trash3' style="color:white"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            </div>
+                         
+                        </div>
+                   
+                }
+            </div>
         </div>
     </div>
 
@@ -244,7 +233,7 @@
         var progress = 100 - (distance / totalDuration) * 100;
 
         // Обновляем прогресс-бар
-        var progressBar = element.closest('.card-body').querySelector('.progress-bar');
+        var progressBar = element.closest('.item').querySelector('.progress-bar');
         progressBar.style.width = progress + "%";
 
         // Если время истекло, обновляем содержимое элемента и прогресс-бара

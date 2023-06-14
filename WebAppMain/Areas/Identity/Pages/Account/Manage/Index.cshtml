@@ -26,32 +26,32 @@
         <form id="profile-form" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="Username">Email</label>
-                    <input asp-for="Username" class="form-control" disabled />
+                <label class="text-white" asp-for="Username">Email</label>
+                <input asp-for="Username" style="background-color:#1f2122" class="form-control" disabled />
                 </div>
                 <div class="form-group">
-                    <label asp-for="Input.FirstName">Имя</label>
+                <label class="text-white" asp-for="Input.FirstName">Имя</label>
                 <input asp-for="Input.FirstName" class="form-control" />
                 <span asp-validation-for="Input.FirstName" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
-                <label asp-for="Input.LastName">Фамииля</label>
+                <label class="text-white" asp-for="Input.LastName">Фамииля</label>
                 <input asp-for="Input.LastName" class="form-control" />
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
                 </div>
             <div class="form-group">
-                <label asp-for="Input.Patronymic">Отчество</label>
+                <label class="text-white" asp-for="Input.Patronymic">Отчество</label>
                 <input asp-for="Input.Patronymic" class="form-control" />
                 <span asp-validation-for="Input.Patronymic" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Input.Date_birth">Дата рождения</label>
-                <input type="date" asp-for="Input.Date_birth" class="form-control" value="Input.Date_birth.ToString("yyyy-MM-dd")" />
+                <label class="text-white" asp-for="Input.Date_birth">Дата рождения</label>
+                <input type="date" asp-for="Input.Date_birth" class="form-control"  />
                 <span asp-validation-for="Input.Date_birth" class="text-danger"></span>
             </div>
                 <div class="form-group">
-                    <label asp-for="Input.PhoneNumber"></label>
+                <label class="text-white" asp-for="Input.PhoneNumber"></label>
                     <input type="number" asp-for="Input.PhoneNumber" class="form-control" />
                     <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
                 </div>
@@ -71,7 +71,7 @@
 
             </div>
                 <div class="text-center mt-4">
-                    <button id="update-profile-button" type="submit" class="btn btn-primary">Сохранить изменения</button>
+                <button id="update-profile-button" type="submit" class="btn btn-primary" style="--bs-btn-border-color: #ec6090;background-color: #ec6090;">Сохранить изменения</button>
 
                 </div>
             </form>

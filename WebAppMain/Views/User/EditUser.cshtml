@@ -4,42 +4,39 @@
     ViewBag.Title = "Edit User";
 }
 
-<h1>Edit User</h1>
 
 <form method="post" class="mt-3">
-    <div class="card-3d-wrap mx-auto">
-        <div class="card-front">
-            <div class="center-wrap">
-                <div class="form-group row">
-                    <label asp-for="FirstName" style="margin-top:10px" class="col-sm-2 col-form-label">Имя</label>
-                    <div class="col-sm-10">
-                        <input style="margin-top:10px" asp-for="FirstName" class="form-style">
-                        <span asp-validation-for="FirstName" class="text-danger"></span>
-                    </div>
+    <div class="container ">
+        <div class="card shadow roundeds mt-5" style="background: #27292a;">
+            <div class="center-wrap m-4">
+                <h4 class="text-lg-center" style="color: #ec6090;">Редактирование пользователя</h4>
+                <div class="form-group">
+                    <label asp-for="FirstName" style="color: #ec6090;" class="control-label">Имя</label>
+                    <input type="text" asp-for="FirstName" placeholder="Имя" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
-                <div class="form-group row">
-                    <label asp-for="LastName" class="col-sm-2 col-form-label">Фамилия</label>
-                    <div class="col-sm-10">
-                        <input asp-for="LastName" class="form-style">
-                        <span asp-validation-for="LastName" class="text-danger"></span>
-                    </div>
+                <div class="form-group">
+                    <label asp-for="LastName" style="color: #ec6090;" class="control-label">Фамилия</label>
+                    <input type="text" asp-for="LastName" placeholder="Фамилия" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
-                <div class="form-group row">
-                    <label asp-for="Email" class="col-sm-2 col-form-label"></label>
-                    <div class="col-sm-10">
-                        <input asp-for="Email" class="form-style">
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
+                <div class="form-group">
+                    <label asp-for="Patronymic" style="color: #ec6090;" class="control-label">Отчество</label>
+                    <input type="text" asp-for="Patronymic" placeholder="Отчество" class="form-control" />
+                    <span asp-validation-for="Patronymic" class="text-danger"></span>
                 </div>
-                   <div class="form-group row">
-                    <label asp-for="PhoneNumber" class="col-sm-2 col-form-label">Номер телефона</label>
-                    <div class="col-sm-10">
-                        <input asp-for="PhoneNumber" class="form-style">
-                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                    </div>
+                <div class="form-group">
+                    <label asp-for="FirstName" style="color: #ec6090;" class="control-label">Email</label>
+                    <input asp-for="Email" class="form-control">
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Роль</label>
+                <div class="form-group">
+                    <label asp-for="FirstName" style="color: #ec6090;" class="control-label">Номер телефона</label>
+                    <input asp-for="PhoneNumber" class="form-control">
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FirstName" style="color: #ec6090;" class="control-label">Роль</label>
                     <div class="col-sm-10">
                         @if (Model.Roles.Any())
                         {
@@ -50,23 +47,16 @@
                         }
                         else
                         {
-                            <h5 class="card-title">None at the moment</h5>
+                            <h5 class="card-title">Отсутсвует на данный момент</h5>
                         }
                     </div>
-
                 </div>
 
-                <div asp-validation-summary="All" class="text-danger"></div>
-   
-
-                <div class="form-group row">
-                    <div class="col-sm-10">
-                        <button type="submit" class="btn btn-primary">Обновить</button>
-                        <a asp-action="ListUsers" class="btn btn-primary">Отмена</a>
-                    </div>
+                <div class="form-group">
+                    <button type="submit" style="background-color: #ec6090" class="btn btn-danger">Обновить</button>
+                    <a asp-action="ListHalls" style="background-color: #ec6090" class="btn btn-danger">Отмена</a>
                 </div>
             </div>
         </div>
     </div>
-   
 </form>

@@ -74,6 +74,7 @@ namespace WebAppMain.Controllers
                 Services = services,
                 Visitors = visitors
             };
+            ViewData["NumberOfHours"] = TempData["NumberOfHours"];
 
             return View(model);
         }
@@ -94,8 +95,11 @@ namespace WebAppMain.Controllers
             {
                 visiting.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 visiting.DateAndTimeOfTheVisitEnd = visiting.DateAndTimeOfTheVisit.AddHours(visiting.NumberOfHours);
-                visiting.Status = "Подтвержден";
-                
+              
+                var service = await db.Services.FindAsync(visiting.ServicecId);
+                double totalCost = service.PricePerService * visiting.NumberOfHours;
+                visiting.TotalCost = totalCost;
+
                 var isDuplicate = await db.Visiting.AnyAsync(v => v.HallsId == visiting.HallsId
                         && v.ComputerId == visiting.ComputerId
                         && v.DateAndTimeOfTheVisit <= visiting.DateAndTimeOfTheVisitEnd
@@ -126,63 +130,7 @@ namespace WebAppMain.Controllers
             }
         }
 
-        public async Task<IActionResult> EditVisiting(int? id)
-        {
-            await selectOptions();
-
-            if (id != null)
-            {
-                Visiting visiting = await db.Visiting
-                   
-                    .Include(v => v.Visitor) // Включаем связанные данные посетителя
-                    .FirstOrDefaultAsync(p => p.VisitingId == id);
-
-                if (visiting != null)
-                    return View(visiting);
-            }
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> EditVisiting(Visiting visiting)
-        {
-            try
-            {
-
-                visiting.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                visiting.Status = "Подтвержден";
-                visiting.DateAndTimeOfTheVisitEnd = visiting.DateAndTimeOfTheVisit.AddHours(visiting.NumberOfHours);
-                var isDuplicate = await db.Visiting.AnyAsync(v => v.HallsId == visiting.HallsId
-                      && v.ComputerId == visiting.ComputerId           
-                      && v.DateAndTimeOfTheVisit <= visiting.DateAndTimeOfTheVisitEnd
-                      && v.DateAndTimeOfTheVisitEnd >= visiting.DateAndTimeOfTheVisit);
-
-                if (isDuplicate)
-                {
-                    ModelState.AddModelError("", "Вы не можете сохранить изменения, время записи пересекается с другой, выберите другое время.");
-                    await selectOptions();
-                    return View(visiting);
-                }
-                else
-                {
-                    db.Visiting.Update(visiting);
-                    await db.SaveChangesAsync();
-                    return RedirectToAction("ListVisiting");
-                }
-               
-
-            }
-            catch (Exception)
-            {
-                await selectOptions();
-
-                ModelState.AddModelError("", "Этот компьютер уже занят, выберите другое время");
-
-                return View(visiting);
-            }
-
-
-
-        }
+       
         [HttpGet]
         public IActionResult GetExpiredVisits()
         {
@@ -303,29 +251,49 @@ namespace WebAppMain.Controllers
         public async Task<IActionResult> ChangeStatus(int orderId, string newStatus)
         {
             var order = await db.Visiting.FindAsync(orderId);
+            var service = await db.Services.FindAsync(order.ServicecId);
             if (order == null)
             {
                 return NotFound();
             }
-           
-
             
-                var isDuplicate = await db.Visiting.AnyAsync(v => v.HallsId == order.HallsId
-                             && v.ComputerId == order.ComputerId
-                             && v.DateAndTimeOfTheVisit <= order.DateAndTimeOfTheVisitEnd
-                             && v.DateAndTimeOfTheVisitEnd >= order.DateAndTimeOfTheVisit);
+            if (newStatus == "Принудительно завершен")
+            {
+
+                order.DateAndTimeOfTheVisitEnd = DateTime.Now;
+                double elapsedHours = (DateTime.Now - order.DateAndTimeOfTheVisit).TotalHours;
+                if (elapsedHours <= 1)
+                {
+
+                    elapsedHours = 1;
+                }
+                order.NumberOfHours = (int)elapsedHours;
+                order.TotalCost = (int)elapsedHours * service.PricePerService;
+
+
+            }
+            else
+            {
+              var    isDuplicate = await db.Visiting.AnyAsync(v => v.HallsId == order.HallsId
+                            && v.ComputerId == order.ComputerId
+                            && v.DateAndTimeOfTheVisit <= order.DateAndTimeOfTheVisitEnd
+                            && v.DateAndTimeOfTheVisitEnd >= order.DateAndTimeOfTheVisit);
                 if (isDuplicate)
                 {
                     TempData["ErrorMessage"] = "Вы не можете обновить статус, время записи пересекается с другой, выберите другое время.";
                     await selectOptions();
                     return RedirectToAction("ListVisiting");
                 }
+            }
+            
+               
+              
             
 
            
             order.Status = newStatus;
             await db.SaveChangesAsync();
-
+         
             return RedirectToAction("ListVisiting");
 
         }
