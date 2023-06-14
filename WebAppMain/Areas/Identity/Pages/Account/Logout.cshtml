@@ -10,7 +10,7 @@
         if (User.Identity.IsAuthenticated)
         {
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                <button type="submit" class="nav-link btn btn-link text-dark">Нажмите здесь, чтобы выйти из системы</button>
+                <button type="submit" style="background-color: #ec6090" class="btn">Нажмите здесь, чтобы выйти из системы</button>
             </form>
         }
         else

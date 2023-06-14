@@ -123,11 +123,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="col-lg-12">
-                                    <div class="main-button">
-                                        <a href="browse.html">Открыть популярные</a>
-                                    </div>
-                                </div>
+                              
                             </div>
                         </div>
                     </div>
@@ -164,7 +160,7 @@
                                 <div class="email">
                                     <i class="bi bi-envelope"></i>
                                     <h4>Email:</h4>
-                                    <p>ilyaplekhanoff@yandex.ru</p>
+                                    <p>deadlord616@gmail.com</p>
                                 </div>
 
                                 <div class="phone">
@@ -198,12 +194,12 @@
                                     <label class="text-white" for="message">Сообщение</label>
                                     <textarea id="message" name="message" class="  form-control " rows="10" required style="border: none;background: #1F2121;color: white;"></textarea>
                                 </div>
-                                <div class="my-3">
-                                    <div class="loading">Загрузка</div>
-                                    <div class="error-message"></div>
-                                    <div class="sent-message">Ваше сообщение отправлено. Спасибо за обращение!</div>
+                                <div class="col-lg-12">
+                                    <div class="main-button">
+                                        <button type="submit" style="background-color: #ec6090" class="btn">Отправить</button>
+                                    </div>
                                 </div>
-                                <div class="text-center"><button type="submit">Отправить</button></div>
+                                
                             </form>
 
                         </div>
@@ -214,49 +210,4 @@
 
     </div>
 </section>
-<script>
-    // Attach a submit event handler to the form
-    document.getElementById("feedbackForm").addEventListener("submit", function (event) {
-        event.preventDefault(); // Prevent the default form submission
 
-        // Get the form data
-        var formData = new FormData(this);
-
-        // Send an AJAX request
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", this.action, true);
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                // Display the success notification
-                showNotification("Ваше сообщение отправлено. Спасибо за обращение!");
-
-                // Clear the form inputs
-                document.getElementById("name").value = "";
-                document.getElementById("email").value = "";
-                document.getElementById("subjects").value = "";
-                document.getElementById("message").value = "";
-            } else {
-                // Display an error notification
-                showNotification("Произошла ошибка. Пожалуйста, повторите попытку позже.");
-            }
-        };
-        xhr.onerror = function () {
-            // Display an error notification
-            showNotification("Произошла ошибка. Пожалуйста, повторите попытку позже.");
-        };
-        xhr.send(formData);
-    });
-
-    // Function to display a notification
-    function showNotification(message) {
-        var notification = document.createElement("div");
-        notification.className = "notification";
-        notification.innerHTML = message;
-        document.body.appendChild(notification);
-
-        // Automatically remove the notification after a few seconds
-        setTimeout(function () {
-            document.body.removeChild(notification);
-        }, 5000);
-    }
-</script>

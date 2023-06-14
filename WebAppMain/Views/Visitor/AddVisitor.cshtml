@@ -2,26 +2,30 @@
 @{
     ViewBag.Title = "Добавление посетителя";
 }
+
 <form asp-action="AddVisitor" asp-controller="Visitor">
     <div class="container ">
-        <div class="card shadow roundeds">
+        <div class="card shadow roundeds mt-5" style="background: #27292a;">
             <div class="center-wrap m-4">
-                <h4 class="text-lg-center">Добавление компьютера</h4>
+                <h4 class="text-lg-center" style="color: #ec6090;">Добавление посетителя</h4>
                 <div class="form-group">
-                    <label asp-for="Name" class="control-label">ФИО</label>
-                    <input type="text" asp-for="Name" placeholder="ФИО" class="form-control" />             
+                    <label asp-for="Name" style="color: #ec6090;" class="control-label">ФИО</label>
+                    <input type="text" asp-for="Name" placeholder="ФИО" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="Addres" class="control-label">Адрес</label>
+                    <label asp-for="Addres" style="color: #ec6090;" class="control-label">Адрес</label>
                     <input type="text" asp-for="Addres" placeholder="Адрес" class="form-control" />
+                    <span asp-validation-for="Addres" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="DateOfBirth" class="control-label">Дата рождения</label>
+                    <label asp-for="Name" style="color: #ec6090;" class="control-label">Дата рождения</label>
                     <input type="date" asp-for="DateOfBirth" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Constant" class="control-label">Постоянный клиент</label>
+                    <label asp-for="Name" style="color: #ec6090;" class="control-label">Постоянный клиент</label>
                     <select class="form-control" asp-for="Constant">
                         <option value="">Выберите тип</option>
                         <option>Да</option>
@@ -29,11 +33,12 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Создать</button>
-                    <a asp-action="ListComputer" class="btn btn-primary">Отмена</a>
+                    <button type="submit" style="background-color: #ec6090" class="btn btn-danger">Создать</button>
+                    <a asp-action="ListVisitor" style="background-color: #ec6090" class="btn btn-danger">Отмена</a>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
 

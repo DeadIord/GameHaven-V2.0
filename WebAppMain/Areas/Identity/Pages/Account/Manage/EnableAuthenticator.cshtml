@@ -8,12 +8,12 @@
 <partial name="_StatusMessage" for="StatusMessage" />
 <h4>Настройка приложения для проверки подлинности:</h4>
 <div>
-    <p>
+    <p class="text-white">
         Чтобы использовать приложение для проверки подлинности, выполните следующие действия:
     </p>
     <ol class="list">
         <li>
-            <p>
+            <p class="text-white">
                 Скачайте приложение для двухфакторной аутентификации, например Microsoft для
                 <a href="https://go.microsoft.com/fwlink/?Linkid=825072">Android</a> и
                 <a href="https://go.microsoft.com/fwlink/?Linkid=825073">iOS</a> или
@@ -23,13 +23,13 @@
             </p>
         </li>
         <li>
-            <p>Отсканируйте QR-код или введите этот ключ в приложение для двухфакторной аутентификации. <br> <b><kbd>@Model.SharedKey</kbd></b></p>
+            <p class="text-white">Отсканируйте QR-код или введите этот ключ в приложение для двухфакторной аутентификации. <br> <b><kbd>@Model.SharedKey</kbd></b></p>
 
-            <div id="qrCode"></div>
+            <div id="qrCode" style="width:150px"></div>
             <div id="qrCodeData" data-url="@Html.Raw(@Model.AuthenticatorUri)"></div>
         </li>
         <li>
-            <p>
+            <p class="text-white">
                 После того, как вы отсканируете QR-код или введете приведенный выше ключ, ваше приложение для двухфакторной аутентификации
                 предоставит вам с уникальным кодом. Введите код в поле подтверждения ниже.
             </p>
@@ -37,11 +37,11 @@
                 <div class="col-md-6">
                     <form id="send-code" method="post">
                         <div class="form-group">
-                            <label asp-for="Input.Code" class="control-label">Проверочный код</label>
+                            <label asp-for="Input.Code" class="control-label text-white">Проверочный код</label>
                             <input asp-for="Input.Code" class="form-control" autocomplete="off" />
                             <span asp-validation-for="Input.Code" class="text-danger"></span>
                         </div>
-                        <button type="submit" class="btn btn-primary">Проверить</button>
+                        <button type="submit" style="background-color: #ec6090 ;--bs-btn-border-color: #ec6090"  class="btn ">Проверить</button>
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     </form>
                 </div>

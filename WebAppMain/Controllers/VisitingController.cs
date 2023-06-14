@@ -148,7 +148,7 @@ namespace WebAppMain.Controllers
                 {
                     computerName = c.ComputerName,
                     isBusy = db.Visiting.Any(v => v.ComputerId == c.ComputerId
-                        && v.Status == "Подтвержден"
+                       
                         && v.DateAndTimeOfTheVisit <= selectedDateTime
                         && v.DateAndTimeOfTheVisitEnd >= selectedDateTime)
                 })
@@ -257,7 +257,7 @@ namespace WebAppMain.Controllers
                 return NotFound();
             }
             
-            if (newStatus == "Принудительно завершен")
+            if (newStatus == "Принудительно")
             {
 
                 order.DateAndTimeOfTheVisitEnd = DateTime.Now;

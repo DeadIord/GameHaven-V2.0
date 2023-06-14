@@ -1,14 +1,20 @@
-﻿@model ICollection<Halls>
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<ApplicationUser> signInManager;
+@model ICollection<Halls>
 @{
     ViewBag.Title = "Залы";
 }
 
-<div class="main-button">
-  <a asp-action="AddHalls"
-      style="width:auto">
-        Добавить новый зал
-    </a>
+ @if (signInManager.IsSignedIn(User) && User.IsInRole("Разработчик") || User.IsInRole("Администратор"))
+{
+    <div class="main-button">
+        <a asp-action="AddHalls"
+           style="width:auto">
+            Добавить новый зал
+        </a>
     </div>
+}
+
 
 <div class="container">
     <div class="row">
@@ -27,16 +33,20 @@
                                     <div class="col-lg-3 col-sm-6">
                                         <div class="item">
                                             <h4 class="ml-2">@hall.HallsName<br /></h4>
-                                            <form asp-action="Delete" asp-route-id="@hall.HallsId" method="post">
-                                                <a href="@Url.Action("EditHalls", "Halls", new { id = hall.HallsId })" class="btn-sm btn">
-                                                    <i class="mt-1 bx bx-edit-alt bx-xs" style="color:white"></i>
-                                                </a>
-                                                <button type="submit" class="btn-sm btn "
-                                                        onclick="return confirm('Вы уверены что хотите удалить данную услугу: @hall.HallsName.')">
-                                                    <i class='bi bi-trash3' style="color:white"></i>
-                                                </button>
-                                                <partial name="Details" model="@hall" />
-                                            </form>
+                                           
+                                                <form asp-action="Delete" asp-route-id="@hall.HallsId" method="post">
+
+                                                    <a href="@Url.Action("EditHalls", "Halls", new { id = hall.HallsId })" class="btn-sm btn">
+                                                        <i class="mt-1 bx bx-edit-alt bx-xs" style="color:white"></i>
+                                                    </a>
+                                                    <button type="submit" class="btn-sm btn "
+                                                            onclick="return confirm('Вы уверены что хотите удалить данную услугу: @hall.HallsName.')">
+                                                        <i class='bi bi-trash3' style="color:white"></i>
+                                                    </button>
+                                                    <partial name="Details" model="@hall" />
+                                                </form>
+                                            
+
                                         </div>
                                     </div>
                                 }

@@ -46,8 +46,9 @@ namespace WebAppMain.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
            
+            [Display(Name = "Email")]
+            [Required(ErrorMessage = "ведите Email")]
             public string Email { get; set; }
 
             [Display(Name = "Пароль")]
@@ -142,7 +143,7 @@ namespace WebAppMain.Areas.Identity.Pages.Account
                             }
                             else
                             {
-                                ModelState.AddModelError(string.Empty, "Не вверно ввеленные данные.");
+                                ModelState.AddModelError(string.Empty, "Не вверно введенные данные.");
                                 return Page();
                             }
                         }

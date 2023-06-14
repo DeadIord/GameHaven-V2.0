@@ -4,13 +4,91 @@
 
 @model WebAppMain.Models.Visiting
 @{
-    ViewBag.Title = "Добавление посещения";
+    ViewBag.Title = "Бронирование посещения";
 
     var z = ViewData["Services"];
     var h = ViewData["Halls"];
-    var e = ViewData["Employees"];
+ 
 }
+<style>
+    .accordions {
+        cursor: pointer;
+    }
 
+    .panel {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+    }
+
+</style>
+
+
+<form asp-action="AddVisitingGuest" asp-controller="Home">
+    <div class="container ">
+        <div class="card shadow roundeds mt-5 " style="background: #27292a;">
+            <div class="center-wrap m-4">
+                <h4 class="text-lg-center" style="color: #ec6090;">Бронирование посещения</h4>
+                <div class="form-group">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <label style="color: #ec6090;" asp-for="VisitingId" class="control-label">Посетитель</label>                
+                    <hr />
+                   
+                    <div class="form-group">
+                        <label style="color: #ec6090;" asp-for="ServicecId" class="control-label">Услуга</label>
+                        <select class="form-control" style="background: #1f2122; border: none; color: white;" asp-for="ServicecId">
+                            @if (z != null)
+                                @foreach (var item in (List<HomeController.SelectOptions>)z)
+                                {
+                                    <option value="@item.value">@item.text</option>
+                                }
+                        </select>
+                        <span asp-validation-for="ServicecId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label style="color: #ec6090;" asp-for="DateAndTimeOfTheVisit" class="control-label">Дата и время посещения</label>
+                        <input type="datetime-local" id="date-in" asp-for="DateAndTimeOfTheVisit" class="form-control" />
+                        <span asp-validation-for="DateAndTimeOfTheVisit" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label style="color: #ec6090;" asp-for="NumberOfHours" class="control-label">Количество часов</label>
+                        <input type="number" placeholder="Количество часов" asp-for="NumberOfHours" class="form-control" />
+                        <span asp-validation-for="NumberOfHours" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label style="color: #ec6090;" asp-for="HallsId" class="control-label">Зал</label>
+                        <select class="form-control" style="background: #1f2122; border: none; color: white;" asp-for="HallsId" id="halls-dropdown">
+                            <option value="">Выберите зал</option>
+                            @if (h != null)
+                            {
+                                @foreach (var item in (List<HomeController.SelectOptions>)h)
+                                {
+                                    <option value="@item.value">@item.text</option>
+                                }
+                            }
+                        </select>
+                        <span asp-validation-for="HallsId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label style="color: #ec6090;" asp-for="ComputerId" class="control-label">Компьютер</label>
+                        <select class="form-control" style="background: #1f2122; border: none; color: white;" asp-for="ComputerId" id="computers-dropdown">
+                            <option value="">Выберите компьютер</option>
+                        </select>
+                    </div>
+
+                    <div id="computer-status-container" class="form-group text-white">
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" style="background-color: #ec6090" class="btn">Забронировать</button>
+                        <a asp-action="Index" style="background-color: #ec6090" class="btn">Отмена</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@*
 <form asp-action="AddVisitingGuest" asp-controller="Home" >
 
     <div class="container ">
@@ -81,7 +159,7 @@
 
 
 </form>
-
+*@
 
 @section scripts {
     <script>

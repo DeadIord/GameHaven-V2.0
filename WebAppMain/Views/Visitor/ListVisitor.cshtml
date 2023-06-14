@@ -4,27 +4,75 @@
 }
 <h1>Все посетители</h1>
 
-@if (Model.Any())
-{
-    <form method="get">
-        <div class="card-3d-wrap mx-auto">
-            <div class="card-front">
-                <div class="center-wrap">
-                    <div class="input-group">
-                        <input type="text" name="searchString" class="form-style" placeholder="Поиск по имени" style="margin-top: 5px;width:89%;">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary mr btnsecondary" type="submit">Поиск</button>
-                        </div>
+<div class="main-button">
+    <a asp-action="AddVisitor"
+       style="width:auto">
+        Добавить нового посетителя
+    </a>
+</div>
+<div class="page-content p-5">
+    <div class="most-popular mt-0">
+        <div class="filter-search-container row align-items-center">         
+            <div class=" search-container">
+                <form method="get">
+                    <div class="form-group w-100 mb-0 me-2">
+                        <input style="background-color: #27292a; " type="text" name="searchString" class="form-control" placeholder="Поиск по имени" id="searchString" />
                     </div>
-                </div>
+                    <button type="submit" class="btn-sm btn" style="color:white">
+                        <i class="bi bi-search"></i>
+                    </button>
+                    <a href="#" id="clearSearch" class="btn-sm btn" style="color:white">
+                        <i class="bi bi-x-square"></i>
+                    </a>
+                </form>
             </div>
         </div>
-        <div class="form-group">
-            <a asp-action="AddVisitor" class="btn btn-primary">Добавить нового посетителя</a>
-        </div>
-    </form>
+    </div>
+</div>
 
-    <div class="card-tableNew">
+  
+<div class="card-tableNew">
+    <table class="table table-borderless text-white">
+        <thead>
+            <tr style="color:#e75e8d">
+                <th>ФИО</th>
+                <th>Постоянный клиент</th>
+                <th>Дата рожедния</th>
+                <th>Интсрументы</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var visitor in Enumerable.Reverse(Model))
+            {
+                <tr class="accordion" data-toggle="collapse" data-target="#collapse@(visitor.VisitorsId)" aria-expanded="false" aria-controls="collapse@(visitor.VisitorsId)">
+                    <td style="color:white">@visitor.Name</td>
+                    <td style="color:white">@visitor.Constant</td>
+                    <td style="color:white">@visitor.DateOfBirth?.ToString("dd.MM.yyyy")</td>
+                   
+                    <td>
+                        <form asp-action="Delete" asp-route-id="@visitor.VisitorsId" method="post">
+                            <a asp-action="EditVisitor" asp-controller="Visitor" asp-route-id="@visitor.VisitorsId" class="btn ">
+                                <i class="mt-1 bx bx-edit-alt bx-xs" style="color:white"></i>
+                            </a>
+                            <button class="btn " onclick="return confirm('Вы уверены что хотите удалить данного пользователя: @visitor.Name')">
+
+                                <i class='bi bi-trash3' style="color:white"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <div id="collapse@(visitor.VisitorsId)" class="collapse">
+                            <p style="color:white">Адрес Проживания: @visitor.Addres</p>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+    @*<div class="card-tableNew">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -42,12 +90,7 @@
                         <td>@visitor.Constant</td>
                         <td>@visitor.DateOfBirth?.ToString("dd.MM.yyyy")</td>
                         <td>
-                            <form asp-action="Delete" asp-route-id="@visitor.VisitorsId" method="post">
-                                <a asp-action="EditVisitor" asp-controller="Visitor" asp-route-id="@visitor.VisitorsId" class="btn btn-primary">Редактирование</a>
-                                <button class="btn btn-danger" onclick="return confirm('Вы уверены что хотите удалить данного пользователя: @visitor.Name')">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </form>
+                           
                         </td>
                     </tr>
                     <tr>
@@ -61,21 +104,8 @@
             </tbody>
         </table>
     </div>
-}
-else
-{
-    <div class="card-tableNew">
-        <div class="card-header">
-            Еще не добавлены посетители
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">
-                Используйте кнопку ниже, чтобы добавить посетителя
-            </h5>
-            <a class="btn btn-primary" style="width:auto" asp-action="AddVisitor">Добавить посетителя</a>
-        </div>
-    </div>
-}
+}*@
+
 
 @section Scripts {
     <script>

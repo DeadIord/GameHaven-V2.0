@@ -5,27 +5,29 @@
     ViewData["Title"] = "Log in";
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="row">
-    <div class="col-md-4">
-        <section>
+<h1>Авторизация</h1>
+
+<div class="container ">
+    <div class="card shadow roundeds mt-5" style="background: #27292a;">
+        <div class="center-wrap m-4">
+    
             <form id="account" method="post">
-                <h4>Используйте локальную учетную запись для входа в систему.</h4>
+                    <h4 class="text-lg-left" style="color: #ec6090;" >Используйте учетную запись для входа в систему.</h4>
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="Input.Email">Email/Login</label>
-                    <input asp-for="Input.Email" class="form-control" />
+                        <label asp-for="Input.Email" style="color: #ec6090;" class="control-label">Email/Login</label>
+                        <input asp-for="Input.Email" placeholder="Email" class="form-control" />
                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Input.Password"></label>
+                        <label asp-for="Input.Password" style="color: #ec6090;" class="control-label"></label>
                     <input asp-for="Input.Password" class="form-control" />
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <div class="checkbox">
-                        <label asp-for="Input.RememberMe">
+                            <label asp-for="Input.RememberMe" style="color: #ec6090;" class="control-label">
                             <input asp-for="Input.RememberMe" />
                             @Html.DisplayNameFor(m => m.Input.RememberMe)
                         </label>
@@ -35,11 +37,12 @@
                     <div class="g-recaptcha" data-sitekey="6Ld83FslAAAAAE85TzJiOeKwgFu0C2Yjxz9mJM3y"></div>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Log in</button>
+                        <button type="submit" style="background-color: #ec6090" class="btn btn-danger">Log in</button>
                 </div>
                
             </form>
-        </section>
+      
+    </div>
     </div>
   
 </div>

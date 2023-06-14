@@ -10,25 +10,25 @@
 }
 
 <div>
-    <h4>
-        Изменение настроек учетной записи
-    </h4>
-    <hr />
-
-    
-    <div class="page-content mt-2 mb-5">
-        <div class="row">
-            <div class="col-md-8 ">
-                <div class="p-3 py-1 border-right">
-                    @RenderBody()
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="p-3 py-5">
+    <div class="container rounded mt-2 mb-5">
+        <h3>
+            Изменение настроек учетной записи
+        </h3>
+            <div class="">
+                <div class="py-3">
                     <partial name="_ManageNav" />
                 </div>
             </div>
-        </div>
+        <div class="page-content mt-2 mb-5">
+            <div class="row">
+                <div class="col-md-8 ">
+                    <div class="p-3 py-1">
+                    @RenderBody()
+                </div>
+            </div>
+            </div>
+            </div>
+
     </div>
 </div>
 
